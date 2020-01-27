@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback } from "react";
+import { observer } from "mobx-react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -13,7 +14,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { AuthContext } from "../../context";
+import { AuthStore } from "../../stores";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -39,11 +40,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { logIn } = useContext(AuthContext);
   const classes = useStyles();
 
   const handleEmail = useCallback(
@@ -66,8 +66,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("HI");
-    logIn();
+    AuthStore.toggleIsLoggedIn();
   };
 
   return (
@@ -128,6 +127,6 @@ const LoginPage: React.FC = () => {
       </div>
     </Container>
   );
-};
+});
 
 export default LoginPage;
