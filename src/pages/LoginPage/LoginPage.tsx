@@ -14,11 +14,12 @@ import {
   FormFeedback
 } from "reactstrap";
 
-import { AuthStore } from "../../stores";
+import { useStores } from "../../hooks";
 import { useFormInput } from "../../hooks";
 import { validateEmail } from "../../helpers";
 
 const LoginPage: React.FC = observer(() => {
+  const { AuthStore } = useStores();
   const email = useFormInput({
     field: "email",
     value: "",

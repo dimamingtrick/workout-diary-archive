@@ -1,25 +1,30 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
+import { observer } from "mobx-react";
 
-import { AuthContext } from "../../context";
+import { useStores } from "../../hooks";
 
-export const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-  const { isLoggedIn } = useContext(AuthContext);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isLoggedIn ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-};
+export const PrivateRoute: React.FC<RouteProps> = observer(
+  ({ children, ...rest }) => {
+    const {
+      AuthStore: { isLoggedIn }
+    } = useStores();
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          isLoggedIn ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+  }
+);

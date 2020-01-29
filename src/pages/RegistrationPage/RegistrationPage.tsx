@@ -15,10 +15,11 @@ import {
   FormFeedback
 } from "reactstrap";
 
-import { AuthStore } from "../../stores";
+import { useStores } from "../../hooks";
 import { useRegistration } from "./hooks";
 
 const RegistrationPage: React.FC = observer(() => {
+  const { AuthStore } = useStores();
   const {
     email,
     password,

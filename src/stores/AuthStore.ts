@@ -6,7 +6,7 @@ interface User {
   avatar?: string;
 }
 
-class AuthStore {
+export default class AuthStore {
   @observable isLoggedIn: boolean = false;
   @observable user: User | null = null;
 
@@ -22,8 +22,11 @@ class AuthStore {
   }
 
   @action signIn() {
-    alert("SignIn")
+    console.log("SignIn");
+    this.isLoggedIn = true;
+  }
+
+  @action logout() {
+    this.isLoggedIn = false;
   }
 }
-
-export default new AuthStore();
