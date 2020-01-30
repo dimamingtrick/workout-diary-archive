@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { observer } from "mobx-react";
+import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -18,7 +18,7 @@ import {
 import { useStores } from "../../hooks";
 import { useRegistration } from "./hooks";
 
-const RegistrationPage: React.FC = observer(() => {
+const RegistrationPage: React.FC = () => {
   const { AuthStore } = useStores();
   const {
     email,
@@ -56,7 +56,7 @@ const RegistrationPage: React.FC = observer(() => {
     AuthStore.signIn();
   };
 
-  return (
+  return useObserver(() => (
     <Container fluid="md">
       <Col md={{ size: 6, offset: 3 }}>
         <Form onSubmit={handleSubmit}>
@@ -71,7 +71,7 @@ const RegistrationPage: React.FC = observer(() => {
               type="email"
               name="email"
               id="exampleEmail"
-              placeholder="with a placeholder"
+              placeholder="Email..."
             />
             {email.error !== "" && <FormFeedback>{email.error}</FormFeedback>}
           </FormGroup>
@@ -144,7 +144,7 @@ const RegistrationPage: React.FC = observer(() => {
         </Form>
       </Col>
     </Container>
-  );
-});
+  ));
+};
 
 export default RegistrationPage;

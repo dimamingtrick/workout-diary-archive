@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { observer } from "mobx-react";
+import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -18,7 +18,7 @@ import { useStores } from "../../hooks";
 import { useFormInput } from "../../hooks";
 import { validateEmail } from "../../helpers";
 
-const LoginPage: React.FC = observer(() => {
+const LoginPage: React.FC = () => {
   const { AuthStore } = useStores();
   const email = useFormInput({
     field: "email",
@@ -56,7 +56,7 @@ const LoginPage: React.FC = observer(() => {
     AuthStore.signIn();
   };
 
-  return (
+  return useObserver(() => (
     <Container fluid="md">
       <Col md={{ size: 6, offset: 3 }}>
         <Form onSubmit={handleSubmit}>
@@ -104,7 +104,7 @@ const LoginPage: React.FC = observer(() => {
         </Form>
       </Col>
     </Container>
-  );
-});
+  ));
+};
 
 export default LoginPage;
