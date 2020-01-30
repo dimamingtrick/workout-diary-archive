@@ -1,0 +1,92 @@
+$red: #ff5c5c;
+
+.input-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+
+  input.input,
+  textarea.input {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 17px;
+    line-height: 164%;
+    transition: background-color 0.3s, box-shadow 0.3s;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border: none;
+      background-color: rgba(0, 0, 0, 0.04);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8);
+    }
+
+    &.with-left-icon {
+      padding-left: 38px;
+    }
+
+    &.with-right-icon {
+      padding-right: 38px;
+    }
+
+    &.textarea {
+      padding: 12px;
+    }
+
+    &.is-invalid {
+      box-shadow: 0 0 0 2px $red;
+
+      &::placeholder {
+        color: $red;
+      }
+    }
+
+    &.is-valid {
+      box-shadow: 0 0 0 2px #28a745;
+      background-color: rgba(40, 167, 69, 0.02);
+    }
+  }
+
+  span.input-error {
+    color: $red;
+    font-size: 13px;
+    line-height: 172%;
+    padding-left: 7px;
+    padding-top: 5px;
+  }
+
+  span.is-valid-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 12px;
+    top: 10px;
+  }
+
+  .input-icon {
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+
+    &.left-icon {
+      left: 0;
+    }
+
+    &.right-icon {
+      right: 0;
+    }
+  }
+}

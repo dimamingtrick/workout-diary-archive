@@ -1,22 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  InputGroup,
-  Input,
-  InputGroupAddon,
-  FormFeedback
-} from "reactstrap";
+import { Container, Row, Col, Button, Form } from "reactstrap";
 
 import { useStores } from "../../hooks";
 import { useRegistration } from "./hooks";
+import { Input } from "../../components/common";
+import ShowPasswordIcon from "../../components/ShowPasswordIcon";
+import "./registration-page.scss";
 
 const RegistrationPage: React.FC = () => {
   const { AuthStore } = useStores();
@@ -60,82 +51,69 @@ const RegistrationPage: React.FC = () => {
     <Container fluid="md">
       <Col md={{ size: 6, offset: 3 }}>
         <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label for="exampleEmail">Email</Label>
-            <Input
-              value={email.value}
-              onChange={email.onChange}
-              onBlur={email.onChange}
-              valid={email.touched && email.error === ""}
-              invalid={email.touched && email.error !== ""}
-              type="email"
-              name="email"
-              id="exampleEmail"
-              placeholder="Email..."
-            />
-            {email.error !== "" && <FormFeedback>{email.error}</FormFeedback>}
-          </FormGroup>
+          <Input
+            id="exampleEmail"
+            name="email"
+            placeholder="Email..."
+            type="email"
+            value={email.value}
+            onChange={email.onChange}
+            onBlur={email.onChange}
+            valid={email.touched && email.error === ""}
+            invalid={email.touched && email.error !== ""}
+            error={email.error}
+          />
 
-          <FormGroup>
-            <Row form>
-              <Col md={6}>
-                <FormGroup>
-                  <Label for="password">Password</Label>
-                  <InputGroup>
-                    <Input
-                      value={password.value}
-                      onChange={password.onChange}
-                      onBlur={password.onChange}
-                      valid={!password.error && password.touched}
-                      invalid={password.error !== ""}
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      id="password"
-                      placeholder="Password..."
-                    />
-                    <InputGroupAddon addonType="append">
-                      <Button
-                        color="secondary"
-                        onClick={handleClickShowPassword}
-                      >
-                        O
-                      </Button>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </FormGroup>
-              </Col>
-              <Col md={6}>
-                <FormGroup>
-                  <Label for="confirmPassword">Confirm Password</Label>
-                  <Input
-                    value={confirmPassword.value}
-                    onChange={confirmPassword.onChange}
-                    onBlur={confirmPassword.onChange}
-                    valid={!confirmPassword.error && confirmPassword.touched}
-                    invalid={
-                      passwordsError !== "" ||
-                      confirmPassword.error !== "" ||
-                      password.error !== ""
-                    }
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    id="confirmPassword"
-                    placeholder="Confirm password..."
+          <Row form>
+            <Col md={6}>
+              <Input
+                id="password"
+                name="password"
+                placeholder="Password..."
+                type={showPassword ? "text" : "password"}
+                value={password.value}
+                onChange={password.onChange}
+                onBlur={password.onChange}
+                valid={!password.error && password.touched && !passwordsError}
+                invalid={password.error !== "" || passwordsError !== ""}
+              />
+            </Col>
+            <Col md={6}>
+              <Input
+                id="confirmPassword"
+                name="password"
+                placeholder="Confirm password..."
+                type={showPassword ? "text" : "password"}
+                value={confirmPassword.value}
+                onChange={confirmPassword.onChange}
+                onBlur={confirmPassword.onChange}
+                valid={
+                  !confirmPassword.error &&
+                  confirmPassword.touched &&
+                  !passwordsError
+                }
+                invalid={
+                  passwordsError !== "" ||
+                  confirmPassword.error !== "" ||
+                  password.error !== ""
+                }
+                error={password.error || passwordsError}
+                errorClassName="passwordsError"
+                rightIcon={
+                  <ShowPasswordIcon
+                    show={showPassword}
+                    onClick={handleClickShowPassword}
                   />
-                  {password.error && (
-                    <FormFeedback style={{ textAlign: "right" }}>
-                      {password.error}
-                    </FormFeedback>
-                  )}
-                  {passwordsError !== "" && (
-                    <FormFeedback style={{ textAlign: "right" }}>
-                      {passwordsError}
-                    </FormFeedback>
-                  )}
-                </FormGroup>
-              </Col>
-            </Row>
-          </FormGroup>
+                }
+                leftIcon={
+                  <ShowPasswordIcon
+                    show={showPassword}
+                    onClick={handleClickShowPassword}
+                  />
+                }
+              />
+            </Col>
+          </Row>
 
           <div className="auth-link">
             <Link to="/login">Sign in</Link>
