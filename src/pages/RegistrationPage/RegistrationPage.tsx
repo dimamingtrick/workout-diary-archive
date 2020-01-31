@@ -77,6 +77,7 @@ const RegistrationPage: React.FC = () => {
                 onBlur={password.onChange}
                 valid={!password.error && password.touched && !passwordsError}
                 invalid={password.error !== "" || passwordsError !== ""}
+                error={password.error}
               />
             </Col>
             <Col md={6}>
@@ -93,20 +94,10 @@ const RegistrationPage: React.FC = () => {
                   confirmPassword.touched &&
                   !passwordsError
                 }
-                invalid={
-                  passwordsError !== "" ||
-                  confirmPassword.error !== "" ||
-                  password.error !== ""
-                }
-                error={password.error || passwordsError}
+                invalid={passwordsError !== "" || confirmPassword.error !== ""}
+                error={passwordsError}
                 errorClassName="passwordsError"
                 rightIcon={
-                  <ShowPasswordIcon
-                    show={showPassword}
-                    onClick={handleClickShowPassword}
-                  />
-                }
-                leftIcon={
                   <ShowPasswordIcon
                     show={showPassword}
                     onClick={handleClickShowPassword}

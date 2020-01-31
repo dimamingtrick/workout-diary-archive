@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Col } from "reactstrap";
 import styles from "./card.module.scss";
 
 interface CardProps {
@@ -12,9 +12,9 @@ export const Card: React.FC<CardProps> = ({
   children = null
 }) => {
   return (
-    <div className={`${styles.card} ${className}`}>
+    <Col md={6} className={`${styles.card} ${className}`}>
       <div className="content">{children}</div>
-    </div>
+    </Col>
   );
 };
 

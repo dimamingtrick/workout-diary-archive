@@ -1,13 +1,15 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import classNames from "classnames";
+import { CSSTransition } from "react-transition-group";
+
 import "./input.scss";
 
 interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   type?: string;
   valid?: boolean | null;
-  invalid?: boolean | null;
-  error?: string | null;
+  invalid?: boolean;
+  error?: string;
   errorClassName?: string;
   leftIcon?: any;
   rightIcon?: any;
@@ -32,25 +34,36 @@ const Input: React.FC<InputProps> = ({
     "with-right-icon": rightIcon
   };
 
+  const showError: boolean = useMemo(() => {
+    return invalid && error !== "" ? true : false;
+  }, [invalid, error]);
+
   return (
-    <div className="input-wrapper">
-      <div className="input-icon left-icon">{leftIcon}</div>
-      {type === "textarea" ? (
-        <textarea
-          className={classNames("input", "textarea", inputClasses)}
-          {...props}
-        />
-      ) : (
-        <input
-          className={classNames("input", inputClasses)}
-          type={type}
-          {...props}
-        />
-      )}
-      {invalid && error !== "" && (
+    <div className="input-container">
+      <div className="input-wrapper">
+        <div className="input-icon left-icon">{leftIcon}</div>
+        {type === "textarea" ? (
+          <textarea
+            className={classNames("input", "textarea", inputClasses)}
+            {...props}
+          />
+        ) : (
+          <input
+            className={classNames("input", inputClasses)}
+            type={type}
+            {...props}
+          />
+        )}
+        <div className="input-icon right-icon">{rightIcon}</div>
+      </div>
+      <CSSTransition
+        in={showError}
+        timeout={250}
+        classNames="input-error-animation"
+        unmountOnExit
+      >
         <span className={`input-error ${errorClassName}`}>{error}</span>
-      )}
-      <div className="input-icon right-icon">{rightIcon}</div>
+      </CSSTransition>
     </div>
   );
 };

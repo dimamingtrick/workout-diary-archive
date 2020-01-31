@@ -1,13 +1,16 @@
 .auth-page {
   flex: 1;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #6c757d;
+  background: url("../../assets/auth-background.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .auth-card {
-  position: fixed;
-  left: 50%;
-  top: 45%;
-  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .auth-form {

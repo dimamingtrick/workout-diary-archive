@@ -9,7 +9,7 @@ interface UseFormInput {
 
 interface FormInput {
   touched: boolean;
-  error: null | string;
+  error: string;
   value: string;
   onChange: (_: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   touch: () => void;

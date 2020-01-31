@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
-import { Container, Col, Button, Form } from "reactstrap";
+import { Container, Button, Form } from "reactstrap";
 
 import { useStores } from "../../hooks";
 import { useFormInput } from "../../hooks";
 import { validateEmail } from "../../helpers";
-import { Input } from "../../components/common";
+import { Input, Card, CardTitle } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 
 const LoginPage: React.FC = () => {
@@ -48,8 +48,9 @@ const LoginPage: React.FC = () => {
   };
 
   return useObserver(() => (
-    <Container fluid="md">
-      <Col md={{ size: 6, offset: 3 }}>
+    <Container fluid className="auth-page">
+      <Card className="auth-card">
+        <CardTitle>Login</CardTitle>
         <Form className="auth-form" onSubmit={handleSubmit}>
           <Input
             id="exampleEmail"
@@ -82,12 +83,12 @@ const LoginPage: React.FC = () => {
             }
           />
 
+          <Button className="auth-submit-btn">Submit</Button>
           <div className="auth-link">
             <Link to="/registration">Sign up</Link>
           </div>
-          <Button className="auth-submit-btn">Submit</Button>
         </Form>
-      </Col>
+      </Card>
     </Container>
   ));
 };
