@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
   return useObserver(() => (
     <Container fluid="md">
       <Col md={{ size: 6, offset: 3 }}>
-        <Form onSubmit={handleSubmit}>
+        <Form className="auth-form" onSubmit={handleSubmit}>
           <Input
             id="exampleEmail"
             name="email"
@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
           <div className="auth-link">
             <Link to="/registration">Sign up</Link>
           </div>
-          <Button>Submit</Button>
+          <Button className="auth-submit-btn">Submit</Button>
         </Form>
       </Col>
     </Container>

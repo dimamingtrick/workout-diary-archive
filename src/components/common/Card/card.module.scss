@@ -1,0 +1,17 @@
+.card {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8);
+  border-radius: 6px;
+  padding: 1.25rem;
+  z-index: 1000;
+  background-color: #fff;
+}
+
+.cardTitle {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 1rem;
+
+  span {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}

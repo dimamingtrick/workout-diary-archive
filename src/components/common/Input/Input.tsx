@@ -23,39 +23,37 @@ const Input: React.FC<InputProps> = ({
   rightIcon = null,
   leftIcon = null,
   ...props
-}) => (
-  <div className="input-wrapper">
-    <div className="input-icon left-icon">{leftIcon}</div>
-    {type === "textarea" ? (
-      <textarea
-        className={classNames("input", "textarea", {
-          [className as any]: className,
-          "is-valid": valid,
-          "is-invalid": invalid,
-          "with-left-icon": leftIcon,
-          "with-right-icon": rightIcon
-        })}
-        {...props}
-      />
-    ) : (
-      <input
-        className={classNames("input", {
-          [className as any]: className,
-          "is-valid": valid,
-          "is-invalid": invalid,
-          "with-left-icon": leftIcon,
-          "with-right-icon": rightIcon
-        })}
-        type={type}
-        {...props}
-      />
-    )}
-    {invalid && error !== "" && (
-      <span className={`input-error ${errorClassName}`}>{error}</span>
-    )}
-    <div className="input-icon right-icon">{rightIcon}</div>
-  </div>
-);
+}) => {
+  const inputClasses = {
+    [className as any]: className,
+    "is-valid": valid,
+    "is-invalid": invalid,
+    "with-left-icon": leftIcon,
+    "with-right-icon": rightIcon
+  };
+
+  return (
+    <div className="input-wrapper">
+      <div className="input-icon left-icon">{leftIcon}</div>
+      {type === "textarea" ? (
+        <textarea
+          className={classNames("input", "textarea", inputClasses)}
+          {...props}
+        />
+      ) : (
+        <input
+          className={classNames("input", inputClasses)}
+          type={type}
+          {...props}
+        />
+      )}
+      {invalid && error !== "" && (
+        <span className={`input-error ${errorClassName}`}>{error}</span>
+      )}
+      <div className="input-icon right-icon">{rightIcon}</div>
+    </div>
+  );
+};
 
 export type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement

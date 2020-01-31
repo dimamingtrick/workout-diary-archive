@@ -5,7 +5,7 @@ import { Container, Row, Col, Button, Form } from "reactstrap";
 
 import { useStores } from "../../hooks";
 import { useRegistration } from "./hooks";
-import { Input } from "../../components/common";
+import { Input, Card, CardTitle } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import "./registration-page.scss";
 
@@ -48,9 +48,10 @@ const RegistrationPage: React.FC = () => {
   };
 
   return useObserver(() => (
-    <Container fluid="md">
-      <Col md={{ size: 6, offset: 3 }}>
-        <Form onSubmit={handleSubmit}>
+    <Container fluid className="auth-page">
+      <Card className="auth-card">
+        <CardTitle>Registration</CardTitle>
+        <Form className="auth-form" onSubmit={handleSubmit}>
           <Input
             id="exampleEmail"
             name="email"
@@ -114,13 +115,12 @@ const RegistrationPage: React.FC = () => {
               />
             </Col>
           </Row>
-
+          <Button className="auth-submit-btn">Submit</Button>
           <div className="auth-link">
             <Link to="/login">Sign in</Link>
           </div>
-          <Button>Submit</Button>
         </Form>
-      </Col>
+      </Card>
     </Container>
   ));
 };

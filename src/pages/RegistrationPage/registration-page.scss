@@ -1,3 +1,30 @@
+.auth-page {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.auth-card {
+  position: fixed;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .passwordsError {
   text-align: right;
+}
+
+.auth-submit-btn {
+  width: 100%;
+}
+
+.auth-link {
+  text-align: right;
+  margin-left: auto;
+  margin-top: 1rem;
 }

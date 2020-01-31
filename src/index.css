@@ -21,8 +21,3 @@ html,
   flex: 1;
   min-height: 100%;
 }
-
-.auth-link {
-  text-align: right;
-  margin-left: auto;
-}
