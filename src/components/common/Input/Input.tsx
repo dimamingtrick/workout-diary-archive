@@ -7,6 +7,7 @@ import "./input.scss";
 interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   type?: string;
+  label?: string;
   valid?: boolean | null;
   invalid?: boolean;
   error?: string;
@@ -17,6 +18,7 @@ interface InputProps
 
 const Input: React.FC<InputProps> = ({
   type = "text",
+  label,
   className,
   valid,
   invalid,
@@ -40,8 +42,9 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className="input-container">
+      {label && <label>{label}</label>}
       <div className="input-wrapper">
-        <div className="input-icon left-icon">{leftIcon}</div>
+        {leftIcon && <div className="input-icon left-icon">{leftIcon}</div>}
         {type === "textarea" ? (
           <textarea
             className={classNames("input", "textarea", inputClasses)}
@@ -54,7 +57,7 @@ const Input: React.FC<InputProps> = ({
             {...props}
           />
         )}
-        <div className="input-icon right-icon">{rightIcon}</div>
+        {rightIcon && <div className="input-icon right-icon">{rightIcon}</div>}
       </div>
       <CSSTransition
         in={showError}

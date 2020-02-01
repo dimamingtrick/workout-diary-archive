@@ -44,6 +44,7 @@ const RegistrationPage: React.FC = () => {
             id="exampleEmail"
             name="email"
             placeholder="Email..."
+            label="Email"
             type="email"
             value={email.value}
             onChange={email.onChange}
@@ -60,6 +61,7 @@ const RegistrationPage: React.FC = () => {
                 id="password"
                 name="password"
                 placeholder="Password..."
+                label="Password"
                 type={showPassword ? "text" : "password"}
                 value={password.value}
                 onChange={password.onChange}
@@ -75,6 +77,7 @@ const RegistrationPage: React.FC = () => {
                 id="confirmPassword"
                 name="password"
                 placeholder="Confirm password..."
+                label="Confirm password"
                 type={showPassword ? "text" : "password"}
                 value={confirmPassword.value}
                 onChange={confirmPassword.onChange}
