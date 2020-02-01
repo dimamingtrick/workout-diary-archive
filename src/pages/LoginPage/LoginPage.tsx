@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
     setShowPassword(!showPassword);
   }, [showPassword]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     let errors = [];
 
@@ -46,7 +46,14 @@ const LoginPage: React.FC = () => {
     if (errors.length !== 0) return;
 
     setIsLoading(true);
-    AuthStore.signIn();
+    
+    AuthStore.signIn({
+      email: email.value,
+      password: password.value
+    }).catch(err => {
+      console.log(err);
+      setIsLoading(false);
+    });
   };
 
   return useObserver(() => (

@@ -13,6 +13,7 @@ const RegistrationPage: React.FC = () => {
   const { AuthStore } = useStores();
   const {
     email,
+    name,
     password,
     confirmPassword,
     passwordsError,
@@ -32,7 +33,16 @@ const RegistrationPage: React.FC = () => {
     if (!isValid) return;
 
     setIsLoading(true);
-    AuthStore.signIn();
+
+    AuthStore.signUp({
+      email: email.value,
+      name: name.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value
+    }).catch(err => {
+      console.log(err);
+      setIsLoading(false);
+    });
   };
 
   return useObserver(() => (
@@ -41,7 +51,7 @@ const RegistrationPage: React.FC = () => {
         <CardTitle>Registration</CardTitle>
         <Form className="auth-form" onSubmit={handleSubmit}>
           <Input
-            id="exampleEmail"
+            id="email"
             name="email"
             placeholder="Email..."
             label="Email"
@@ -52,6 +62,20 @@ const RegistrationPage: React.FC = () => {
             valid={email.touched && email.error === ""}
             invalid={email.touched && email.error !== ""}
             error={email.error}
+            disabled={isLoading}
+          />
+
+          <Input
+            id="name"
+            name="name"
+            placeholder="Name..."
+            label="Name"
+            value={name.value}
+            onChange={name.onChange}
+            onBlur={name.onChange}
+            valid={name.touched && name.error === ""}
+            invalid={name.touched && name.error !== ""}
+            error={name.error}
             disabled={isLoading}
           />
 

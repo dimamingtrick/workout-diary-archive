@@ -42,7 +42,16 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className="input-container">
-      {label && <label>{label}</label>}
+      {label && (
+        <label
+          className={classNames({
+            "invalid-label": showError,
+            "valid-label": valid
+          })}
+        >
+          {label}
+        </label>
+      )}
       <div className="input-wrapper">
         {leftIcon && <div className="input-icon left-icon">{leftIcon}</div>}
         {type === "textarea" ? (

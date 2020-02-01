@@ -10,6 +10,12 @@ export const useRegistration = () => {
     validation: validateEmail
   });
 
+  const name = useFormInput({
+    field: "name",
+    value: "",
+    required: true,
+  });
+
   const password = useFormInput({
     field: "password",
     value: "",
@@ -65,5 +71,5 @@ export const useRegistration = () => {
     return errors.length === 0;
   }
 
-  return { email, password, confirmPassword, passwordsError, validate }
+  return { email, name, password, confirmPassword, passwordsError, validate }
 }

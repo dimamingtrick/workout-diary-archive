@@ -1,5 +1,8 @@
 import { observable, action } from "mobx"
 
+import { signup, signin } from "../api/auth.api";
+import { SignUpInterface, SignInInterface } from "../models/auth.model";
+
 interface User {
   login?: string;
   email?: string;
@@ -21,9 +24,26 @@ export default class AuthStore {
     else alert('token')
   }
 
-  @action signIn() {
-    console.log("SignIn");
-    this.isLoggedIn = true;
+  @action async signUp(signUpData: SignUpInterface) {
+    try {
+      const user = await signup(signUpData);
+      console.log(user);
+      this.isLoggedIn = true;
+      this.user = user;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @action async signIn(signInData: SignInInterface) {
+    try {
+      const user = await signin(signInData);
+      console.log(user);
+      this.isLoggedIn = true;
+      this.user = user;
+    } catch (err) {
+      throw err;
+    }
   }
 
   @action logout() {
