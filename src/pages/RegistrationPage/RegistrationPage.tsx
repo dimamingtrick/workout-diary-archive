@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { useObserver } from "mobx-react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Button, Form } from "reactstrap";
+import { Container, Row, Col, Button, Form, Spinner } from "reactstrap";
 
 import { useStores } from "../../hooks";
 import { useRegistration } from "./hooks";
 import { Input, Card, CardTitle } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
+import AuthLink from "../../components/AuthLink";
 import "./registration-page.scss";
 
 const RegistrationPage: React.FC = () => {
@@ -15,9 +15,11 @@ const RegistrationPage: React.FC = () => {
     email,
     password,
     confirmPassword,
-    passwordsError
+    passwordsError,
+    validate
   } = useRegistration();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickShowPassword = useCallback(() => {
     setShowPassword(!showPassword);
@@ -25,25 +27,11 @@ const RegistrationPage: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    let errors = [];
+    const isValid = validate();
 
-    if (email.value === "") {
-      email.touch();
-      errors.push("email");
-    }
+    if (!isValid) return;
 
-    if (password.value === "") {
-      password.touch();
-      errors.push("password");
-    }
-
-    if (confirmPassword.value === "") {
-      confirmPassword.touch();
-      errors.push("confirmPassword");
-    }
-
-    if (errors.length !== 0) return;
-
+    setIsLoading(true);
     AuthStore.signIn();
   };
 
@@ -63,6 +51,7 @@ const RegistrationPage: React.FC = () => {
             valid={email.touched && email.error === ""}
             invalid={email.touched && email.error !== ""}
             error={email.error}
+            disabled={isLoading}
           />
 
           <Row form>
@@ -78,6 +67,7 @@ const RegistrationPage: React.FC = () => {
                 valid={!password.error && password.touched && !passwordsError}
                 invalid={password.error !== "" || passwordsError !== ""}
                 error={password.error}
+                disabled={isLoading}
               />
             </Col>
             <Col md={6}>
@@ -103,13 +93,16 @@ const RegistrationPage: React.FC = () => {
                     onClick={handleClickShowPassword}
                   />
                 }
+                disabled={isLoading}
               />
             </Col>
           </Row>
-          <Button className="auth-submit-btn">Submit</Button>
-          <div className="auth-link">
-            <Link to="/login">Sign in</Link>
-          </div>
+          <Button className="auth-submit-btn" disabled={isLoading}>
+            {isLoading ? <Spinner color="light" size="sm" /> : "Sign Up"}
+          </Button>
+          <AuthLink to="/login" disabled={isLoading}>
+            Sign In
+          </AuthLink>
         </Form>
       </Card>
     </Container>

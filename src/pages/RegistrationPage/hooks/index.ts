@@ -44,5 +44,26 @@ export const useRegistration = () => {
     }
   }, [password, confirmPassword, passwordsError]);
 
-  return { email, password, confirmPassword, passwordsError }
+  const validate = () => {
+    let errors = [];
+
+    if (email.value === "") {
+      email.touch();
+      errors.push("email");
+    }
+
+    if (password.value === "") {
+      password.touch();
+      errors.push("password");
+    }
+
+    if (confirmPassword.value === "") {
+      confirmPassword.touch();
+      errors.push("confirmPassword");
+    }
+
+    return errors.length === 0;
+  }
+
+  return { email, password, confirmPassword, passwordsError, validate }
 }

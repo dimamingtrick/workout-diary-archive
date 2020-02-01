@@ -11,6 +11,7 @@
 
 .auth-card {
   background-color: rgba(255, 255, 255, 0.85);
+  padding: 2rem !important;
 }
 
 .auth-form {
@@ -24,10 +25,23 @@
 
 .auth-submit-btn {
   width: 100%;
+
+  &:disabled {
+    cursor: progress;
+  }
 }
 
 .auth-link {
   text-align: right;
   margin-left: auto;
   margin-top: 1rem;
+
+  .disabled-link {
+    cursor: not-allowed;
+    color: rgba(#007bff, 0.65);
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }

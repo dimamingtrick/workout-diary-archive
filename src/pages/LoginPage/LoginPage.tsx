@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { useObserver } from "mobx-react";
-import { Link } from "react-router-dom";
-import { Container, Button, Form } from "reactstrap";
+import { Container, Button, Form, Spinner } from "reactstrap";
 
 import { useStores } from "../../hooks";
 import { useFormInput } from "../../hooks";
 import { validateEmail } from "../../helpers";
 import { Input, Card, CardTitle } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
+import AuthLink from "../../components/AuthLink";
 
 const LoginPage: React.FC = () => {
   const { AuthStore } = useStores();
@@ -23,6 +23,7 @@ const LoginPage: React.FC = () => {
     required: true
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickShowPassword = useCallback(() => {
     setShowPassword(!showPassword);
@@ -44,6 +45,7 @@ const LoginPage: React.FC = () => {
 
     if (errors.length !== 0) return;
 
+    setIsLoading(true);
     AuthStore.signIn();
   };
 
@@ -63,6 +65,7 @@ const LoginPage: React.FC = () => {
             valid={email.touched && email.error === ""}
             invalid={email.touched && email.error !== ""}
             error={email.error}
+            disabled={isLoading}
           />
           <Input
             id="password"
@@ -81,12 +84,15 @@ const LoginPage: React.FC = () => {
                 onClick={handleClickShowPassword}
               />
             }
+            disabled={isLoading}
           />
 
-          <Button className="auth-submit-btn">Submit</Button>
-          <div className="auth-link">
-            <Link to="/registration">Sign up</Link>
-          </div>
+          <Button className="auth-submit-btn" disabled={isLoading}>
+            {isLoading ? <Spinner color="light" size="sm" /> : "Sign In"}
+          </Button>
+          <AuthLink to="/registration" disabled={isLoading}>
+            Sign Up
+          </AuthLink>
         </Form>
       </Card>
     </Container>

@@ -1,4 +1,4 @@
-$red: #ff5c5c;
+@import "../../../assets/colors.scss";
 
 .input-container {
   display: inline-flex;
@@ -48,10 +48,10 @@ $red: #ff5c5c;
       }
 
       &.is-invalid {
-        box-shadow: 0 0 0 2px $red;
+        box-shadow: 0 0 0 2px $danger;
 
         &::placeholder {
-          color: $red;
+          color: $danger;
         }
       }
 
@@ -81,7 +81,7 @@ $red: #ff5c5c;
   }
 
   .input-error {
-    color: $red;
+    color: $danger;
     min-height: 27px;
     font-size: 14px;
     font-weight: bold;
