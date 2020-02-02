@@ -26,8 +26,8 @@ export default class AuthStore {
 
   @action async signUp(signUpData: SignUpInterface) {
     try {
-      const user = await signup(signUpData);
-      console.log(user);
+      const { user, token } = await signup(signUpData);
+      localStorage.setItem("token", token);
       this.isLoggedIn = true;
       this.user = user;
     } catch (err) {

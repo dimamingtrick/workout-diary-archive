@@ -124,17 +124,17 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
               ? "Email is required"
               : !validateEmail(state.email.value)
                 ? "Enter valid email"
-                : ""
+                : state.email.error
         },
         name: {
           ...state.name,
           touched: true,
-          error: state.name.value === "" ? "Name is required" : ""
+          error: state.name.value === "" ? "Name is required" : state.name.error
         },
         password: {
           ...state.password,
           touched: true,
-          error: state.password.value === "" ? "Password is required" : ""
+          error: state.password.value === "" ? "Password is required" : state.password.error
         },
         confirmPassword: {
           ...state.confirmPassword,
@@ -142,7 +142,7 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
           error:
             (state.password.touched && state.password.value !== "" && state.confirmPassword.value === "" && "Confirm your password") ||
             (state.password.touched && state.password.value !== "" && state.confirmPassword.value !== "" && state.password.value !== state.confirmPassword.value && "Passwords doesn't match") ||
-            ((!state.confirmPassword.touched || state.confirmPassword.value === "") && "Confirm your password") || ""
+            ((!state.confirmPassword.touched || state.confirmPassword.value === "") && "Confirm your password") || state.confirmPassword.error
         }
       };
 
@@ -201,6 +201,8 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
 }
 
 function getResponseErrorMessage(errors: Array<{ field: string, message: string }>, field: string): string {
+  console.log(errors)
+  if (!errors || !errors.length) return "";
   const errorField = errors.find(err => err.field === field);
   return errorField ? errorField.message : "";
 }
