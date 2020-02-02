@@ -13,6 +13,7 @@ interface FormInput {
   value: string;
   onChange: (_: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   touch: () => void;
+  setError: (error: string) => void;
 }
 
 export const useFormInput = ({
@@ -55,11 +56,20 @@ export const useFormInput = ({
     [input, field, required, validation],
   )
 
+  const handleError = useCallback(
+    (error: string) => {
+      setTouched(true);
+      setError(error);
+    },
+    [],
+  )
+
   return {
     touched,
     error,
     value: input,
     onChange: handleField,
+    setError: handleError,
     touch: handleTouch
   };
 };

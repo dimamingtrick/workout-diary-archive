@@ -1,26 +1,51 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useReducer, useCallback } from "react";
 import { useObserver } from "mobx-react";
 import { Container, Row, Col, Button, Form, Spinner } from "reactstrap";
 
 import { useStores } from "../../hooks";
-import { useRegistration } from "./hooks";
+import {
+  registrationReducer,
+  initialState,
+  HANDLE_EMAIL,
+  HANDLE_NAME,
+  HANDLE_PASSWORD,
+  HANDLE_CONFIRM_PASSWORD,
+  HANDLE_VALIDATE,
+  SET_IS_LOADING,
+  HANDLE_ERROR_RESPONSE
+} from "./registrationReducer";
 import { Input, Card, CardTitle } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import AuthLink from "../../components/AuthLink";
 import "./registration-page.scss";
 
+type InputChangeType = React.ChangeEvent<
+  HTMLInputElement | HTMLTextAreaElement
+>;
+
 const RegistrationPage: React.FC = () => {
   const { AuthStore } = useStores();
-  const {
-    email,
-    name,
-    password,
-    confirmPassword,
-    passwordsError,
-    validate
-  } = useRegistration();
+  const [state, dispatch] = useReducer(registrationReducer, initialState);
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { email, name, password, confirmPassword, isLoading } = state;
+
+  const handleChange = useCallback(
+    ({ target: { name, value } }: InputChangeType) => {
+      switch (name) {
+        case "email":
+          return dispatch({ type: HANDLE_EMAIL, value });
+        case "name":
+          return dispatch({ type: HANDLE_NAME, value });
+        case "password":
+          return dispatch({ type: HANDLE_PASSWORD, value });
+        case "confirmPassword":
+          return dispatch({ type: HANDLE_CONFIRM_PASSWORD, value });
+        default:
+          return;
+      }
+    },
+    []
+  );
 
   const handleClickShowPassword = useCallback(() => {
     setShowPassword(!showPassword);
@@ -28,11 +53,14 @@ const RegistrationPage: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const isValid = validate();
+    const fields = [email, name, password, confirmPassword];
+    const formHaveErrors = fields.some(i => i.error !== "" || !i.touched);
 
-    if (!isValid) return;
+    if (formHaveErrors) {
+      return dispatch({ type: HANDLE_VALIDATE });
+    }
 
-    setIsLoading(true);
+    dispatch({ type: SET_IS_LOADING });
 
     AuthStore.signUp({
       email: email.value,
@@ -40,8 +68,7 @@ const RegistrationPage: React.FC = () => {
       password: password.value,
       confirmPassword: confirmPassword.value
     }).catch(err => {
-      console.log(err);
-      setIsLoading(false);
+      dispatch({ type: HANDLE_ERROR_RESPONSE, errors: err });
     });
   };
 
@@ -57,8 +84,8 @@ const RegistrationPage: React.FC = () => {
             label="Email"
             type="email"
             value={email.value}
-            onChange={email.onChange}
-            onBlur={email.onChange}
+            onChange={handleChange}
+            onBlur={handleChange}
             valid={email.touched && email.error === ""}
             invalid={email.touched && email.error !== ""}
             error={email.error}
@@ -71,8 +98,8 @@ const RegistrationPage: React.FC = () => {
             placeholder="Name..."
             label="Name"
             value={name.value}
-            onChange={name.onChange}
-            onBlur={name.onChange}
+            onChange={handleChange}
+            onBlur={handleChange}
             valid={name.touched && name.error === ""}
             invalid={name.touched && name.error !== ""}
             error={name.error}
@@ -88,10 +115,10 @@ const RegistrationPage: React.FC = () => {
                 label="Password"
                 type={showPassword ? "text" : "password"}
                 value={password.value}
-                onChange={password.onChange}
-                onBlur={password.onChange}
-                valid={!password.error && password.touched && !passwordsError}
-                invalid={password.error !== "" || passwordsError !== ""}
+                onChange={handleChange}
+                onBlur={handleChange}
+                valid={!password.error && password.touched}
+                invalid={password.error !== ""}
                 error={password.error}
                 disabled={isLoading}
               />
@@ -99,20 +126,16 @@ const RegistrationPage: React.FC = () => {
             <Col md={6}>
               <Input
                 id="confirmPassword"
-                name="password"
+                name="confirmPassword"
                 placeholder="Confirm password..."
                 label="Confirm password"
                 type={showPassword ? "text" : "password"}
                 value={confirmPassword.value}
-                onChange={confirmPassword.onChange}
-                onBlur={confirmPassword.onChange}
-                valid={
-                  !confirmPassword.error &&
-                  confirmPassword.touched &&
-                  !passwordsError
-                }
-                invalid={passwordsError !== "" || confirmPassword.error !== ""}
-                error={passwordsError}
+                onChange={handleChange}
+                onBlur={handleChange}
+                valid={!confirmPassword.error && confirmPassword.touched}
+                invalid={confirmPassword.error !== ""}
+                error={confirmPassword.error}
                 errorClassName="passwordsError"
                 rightIcon={
                   <ShowPasswordIcon

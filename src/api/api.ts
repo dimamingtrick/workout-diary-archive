@@ -23,7 +23,13 @@ class Api {
 
     try {
       const response = await fetch(`${apiUrl}/${url}`, options);
-      return response.json();
+      const responseBody = await response.json();
+
+      if (!response.ok) {
+        throw responseBody;
+      }
+
+      return responseBody;
     } catch (err) {
       throw err;
     }
