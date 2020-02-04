@@ -1,7 +1,8 @@
 import React, { memo, useMemo } from "react";
 import classNames from "classnames";
-import { CSSTransition } from "react-transition-group";
 
+import { ErrorMessageAnimated } from "../../animations";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import "./input.scss";
 
 interface InputProps
@@ -68,14 +69,9 @@ const Input: React.FC<InputProps> = ({
         )}
         {rightIcon && <div className="input-icon right-icon">{rightIcon}</div>}
       </div>
-      <CSSTransition
-        in={showError}
-        timeout={250}
-        classNames="input-error-animation"
-        unmountOnExit
-      >
-        <span className={`input-error ${errorClassName}`}>{error}</span>
-      </CSSTransition>
+      <ErrorMessageAnimated showError={showError}>
+        <ErrorMessage className={errorClassName}>{error}</ErrorMessage>
+      </ErrorMessageAnimated>
     </div>
   );
 };

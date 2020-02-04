@@ -12,12 +12,14 @@ import {
   HANDLE_CONFIRM_PASSWORD,
   HANDLE_VALIDATE,
   SET_IS_LOADING,
-  HANDLE_ERROR_RESPONSE
+  HANDLE_ERRORS_RESPONSE,
+  HANDLE_ERROR
 } from "./registrationReducer";
-import { Input, Card, CardTitle } from "../../components/common";
+import { Input, Card, CardTitle, ErrorMessage } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import AuthLink from "../../components/AuthLink";
 import "./registration-page.scss";
+import { ErrorMessageAnimated } from "../../components/animations";
 
 type InputChangeType = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
@@ -27,7 +29,7 @@ const RegistrationPage: React.FC = () => {
   const { AuthStore } = useStores();
   const [state, dispatch] = useReducer(registrationReducer, initialState);
   const [showPassword, setShowPassword] = useState(false);
-  const { email, name, password, confirmPassword, isLoading } = state;
+  const { email, name, password, confirmPassword, isLoading, error } = state;
 
   const handleChange = useCallback(
     ({ target: { name, value } }: InputChangeType) => {
@@ -67,8 +69,12 @@ const RegistrationPage: React.FC = () => {
       name: name.value,
       password: password.value,
       confirmPassword: confirmPassword.value
-    }).catch(err => {
-      dispatch({ type: HANDLE_ERROR_RESPONSE, errors: err });
+    }).catch(errors => {
+      if (Array.isArray(errors)) {
+        dispatch({ type: HANDLE_ERRORS_RESPONSE, errors });
+      } else {
+        dispatch({ type: HANDLE_ERROR, error: errors.message });
+      }
     });
   };
 
@@ -147,6 +153,10 @@ const RegistrationPage: React.FC = () => {
               />
             </Col>
           </Row>
+
+          <ErrorMessageAnimated showError={error !== ""}>
+            <ErrorMessage className="auth-error-message">{error}</ErrorMessage>
+          </ErrorMessageAnimated>
           <Button className="auth-submit-btn" disabled={isLoading}>
             {isLoading ? <Spinner color="light" size="sm" /> : "Sign Up"}
           </Button>

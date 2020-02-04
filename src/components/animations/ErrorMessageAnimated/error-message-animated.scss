@@ -1,0 +1,35 @@
+.error-message-animation-enter {
+  // transform: translateY(-100%);
+  margin-top: -28px;
+  opacity: 0;
+}
+
+.error-message-animation-enter.error-message-animation-enter-active {
+  // transform: translateY(0);
+  margin-top: 0;
+  opacity: 1;
+  transition: all 250ms ease-in;
+}
+
+.error-message-animation-appear {
+  // transform: translateY(-100%);
+  margin-top: -28px;
+  opacity: 0;
+}
+
+.error-message-animation-appear.error-message-animation-appear-active {
+  // transform: translateY(0);
+  margin-top: unset;
+  transition: all 250ms ease-in;
+}
+
+.error-message-animation-exit {
+  margin-top: 0;
+  opacity: 1;
+}
+
+.error-message-animation-exit-active {
+  margin-top: -22px;
+  opacity: 0;
+  transition: all 250ms ease-in;
+}

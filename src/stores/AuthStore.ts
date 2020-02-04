@@ -38,7 +38,6 @@ export default class AuthStore {
   @action async signIn(signInData: SignInInterface) {
     try {
       const user = await signin(signInData);
-      console.log(user);
       this.isLoggedIn = true;
       this.user = user;
     } catch (err) {

@@ -1,4 +1,4 @@
-import { validateEmail } from "../../helpers";
+import { validateEmail, getResponseErrorMessage } from "../../helpers";
 
 export const HANDLE_EMAIL = "HANDLE_EMAIL";
 export const HANDLE_NAME = "HANDLE_NAME";
@@ -6,7 +6,8 @@ export const HANDLE_PASSWORD = "HANDLE_PASSWORD";
 export const HANDLE_CONFIRM_PASSWORD = "HANDLE_CONFIRM_PASSWORD";
 export const HANDLE_VALIDATE = "HANDLE_VALIDATE";
 export const SET_IS_LOADING = "SET_IS_LOADING";
-export const HANDLE_ERROR_RESPONSE = "HANDLE_ERROR_RESPONSE";
+export const HANDLE_ERRORS_RESPONSE = "HANDLE_ERRORS_RESPONSE";
+export const HANDLE_ERROR = "HANDLE_ERROR";
 
 interface Field {
   value: string;
@@ -21,11 +22,15 @@ interface FieldAction {
 interface NoPayloadAction {
   type: typeof SET_IS_LOADING | typeof HANDLE_VALIDATE;
 }
-interface ErrorAction {
-  type: typeof HANDLE_ERROR_RESPONSE;
+interface ErrorsAction {
+  type: typeof HANDLE_ERRORS_RESPONSE;
   errors: any[]
 }
-type RegistrationActions = FieldAction | NoPayloadAction | ErrorAction;
+interface ErrorAction {
+  type: typeof HANDLE_ERROR;
+  error: string;
+}
+type RegistrationActions = FieldAction | NoPayloadAction | ErrorsAction | ErrorAction;
 
 export interface RegistrationFormState {
   email: Field;
@@ -33,6 +38,7 @@ export interface RegistrationFormState {
   password: Field;
   confirmPassword: Field;
   isLoading: boolean;
+  error: string;
 }
 
 const initialState: RegistrationFormState = {
@@ -56,7 +62,8 @@ const initialState: RegistrationFormState = {
     touched: false,
     error: ""
   },
-  isLoading: false
+  isLoading: false,
+  error: ""
 };
 
 function registrationReducer(state: RegistrationFormState, action: RegistrationActions): RegistrationFormState {
@@ -165,10 +172,11 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
           ...state.confirmPassword,
           error: ""
         },
-        isLoading: true
+        isLoading: true,
+        error: ""
       };
 
-    case HANDLE_ERROR_RESPONSE:
+    case HANDLE_ERRORS_RESPONSE:
       return {
         ...state,
         email: {
@@ -195,16 +203,16 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
         isLoading: false
       };
 
+    case HANDLE_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error
+      }
+
     default:
       return initialState;
   }
-}
-
-function getResponseErrorMessage(errors: Array<{ field: string, message: string }>, field: string): string {
-  console.log(errors)
-  if (!errors || !errors.length) return "";
-  const errorField = errors.find(err => err.field === field);
-  return errorField ? errorField.message : "";
 }
 
 export { registrationReducer, initialState };

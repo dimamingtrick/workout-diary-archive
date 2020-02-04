@@ -4,10 +4,11 @@ import { Container, Button, Form, Spinner } from "reactstrap";
 
 import { useStores } from "../../hooks";
 import { useFormInput } from "../../hooks";
-import { validateEmail } from "../../helpers";
-import { Input, Card, CardTitle } from "../../components/common";
+import { validateEmail, getResponseErrorMessage } from "../../helpers";
+import { Input, Card, CardTitle, ErrorMessage } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import AuthLink from "../../components/AuthLink";
+import { ErrorMessageAnimated } from "../../components/animations";
 
 const LoginPage: React.FC = () => {
   const { AuthStore } = useStores();
@@ -24,6 +25,7 @@ const LoginPage: React.FC = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleClickShowPassword = useCallback(() => {
     setShowPassword(!showPassword);
@@ -33,26 +35,33 @@ const LoginPage: React.FC = () => {
     event.preventDefault();
     let errors = [];
 
-    if (email.value === "") {
-      email.touch();
+    if (email.value === "" || email.error !== "") {
+      if (email.error === "") email.touch();
       errors.push("email");
     }
 
-    if (password.value === "") {
-      password.touch();
+    if (password.value === "" || password.error !== "") {
+      if (password.error === "") password.touch();
       errors.push("password");
     }
 
     if (errors.length !== 0) return;
 
     setIsLoading(true);
-    
+    setError("");
+
     AuthStore.signIn({
       email: email.value,
       password: password.value
-    }).catch(err => {
-      console.log(err);
+    }).catch(errors => {
       setIsLoading(false);
+
+      if (Array.isArray(errors)) {
+        email.setError(getResponseErrorMessage(errors, "email"));
+        password.setError(getResponseErrorMessage(errors, "password"));
+      } else {
+        setError(errors.message);
+      }
     });
   };
 
@@ -94,6 +103,9 @@ const LoginPage: React.FC = () => {
             disabled={isLoading}
           />
 
+          <ErrorMessageAnimated showError={error !== ""}>
+            <ErrorMessage className="auth-error-message">{error}</ErrorMessage>
+          </ErrorMessageAnimated>
           <Button className="auth-submit-btn" disabled={isLoading}>
             {isLoading ? <Spinner color="light" size="sm" /> : "Sign In"}
           </Button>
