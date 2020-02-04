@@ -1,6 +1,6 @@
 import { observable, action } from "mobx"
 
-import { signup, signin } from "../api/auth.api";
+import { signup, signin, initialize } from "../api/auth.api";
 import { SignUpInterface, SignInInterface } from "../models/auth.model";
 
 interface User {
@@ -10,18 +10,25 @@ interface User {
 }
 
 export default class AuthStore {
+  @observable initialized: boolean = false;
   @observable isLoggedIn: boolean = false;
   @observable user: User | null = null;
 
-  @action toggleIsLoggedIn() {
-    this.isLoggedIn = !this.isLoggedIn
-  }
-
-  @action initialize() {
+  @action async initialize() {
     const token = localStorage.getItem("token");
 
-    if (!token) alert('notoken')
-    else alert('token')
+    if (token) {
+      try {
+        const { user } = await initialize();
+        this.isLoggedIn = true;
+        this.user = user;
+        this.initialized = true;
+      } catch (error) {
+        console.log("Initialize error:", error);
+        localStorage.removeItem("token");
+      }
+    }
+    this.initialized = true;
   }
 
   @action async signUp(signUpData: SignUpInterface) {
@@ -30,22 +37,25 @@ export default class AuthStore {
       localStorage.setItem("token", token);
       this.isLoggedIn = true;
       this.user = user;
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
   }
 
   @action async signIn(signInData: SignInInterface) {
     try {
-      const user = await signin(signInData);
+      const { user, token } = await signin(signInData);
+      localStorage.setItem("token", token);
       this.isLoggedIn = true;
       this.user = user;
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
   }
 
   @action logout() {
+    localStorage.removeItem("token");
     this.isLoggedIn = false;
+    this.user = null;
   }
 }
