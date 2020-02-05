@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import { PrivateRoute, AuthRoute } from "./components/Routes";
+import InitialLoader from "./components/InitialLoader";
 import { useStores } from "./hooks";
 import { useObserver } from "mobx-react";
 
@@ -34,7 +35,7 @@ const Root: React.FC = () => {
         </Switch>
       </div>
     ) : (
-      <div>Loading</div>
+      <InitialLoader />
     )
   );
 };
