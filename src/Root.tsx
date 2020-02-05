@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+import { useObserver } from "mobx-react";
 
 import Page404 from "./pages/Page404/Page404";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
@@ -8,7 +9,6 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import { PrivateRoute, AuthRoute } from "./components/Routes";
 import InitialLoader from "./components/InitialLoader";
 import { useStores } from "./hooks";
-import { useObserver } from "mobx-react";
 
 const Root: React.FC = () => {
   const { AuthStore } = useStores();
