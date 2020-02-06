@@ -8,6 +8,10 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import { PrivateRoute, AuthRoute } from "./components/Routes";
 import InitialLoader from "./components/InitialLoader";
+import {
+  ZoomInOutTransition,
+  FadeInOutTransition
+} from "./components/animations";
 import { useStores } from "./hooks";
 
 const Root: React.FC = () => {
@@ -18,26 +22,29 @@ const Root: React.FC = () => {
     // eslint-disable-next-line
   }, []);
 
-  return useObserver(() =>
-    AuthStore.initialized ? (
-      <div className="pages">
-        <Switch>
-          <PrivateRoute path="/" exact>
-            <DashboardPage />
-          </PrivateRoute>
-          <AuthRoute path="/login">
-            <LoginPage />
-          </AuthRoute>
-          <AuthRoute path="/registration">
-            <RegistrationPage />
-          </AuthRoute>
-          <Route component={Page404} />
-        </Switch>
-      </div>
-    ) : (
-      <InitialLoader />
-    )
-  );
+  return useObserver(() => (
+    <>
+      <ZoomInOutTransition show={AuthStore.initialized}>
+        <div className="pages">
+          <Switch>
+            <PrivateRoute path="/" exact>
+              <DashboardPage />
+            </PrivateRoute>
+            <AuthRoute path="/login">
+              <LoginPage />
+            </AuthRoute>
+            <AuthRoute path="/registration">
+              <RegistrationPage />
+            </AuthRoute>
+            <Route component={Page404} />
+          </Switch>
+        </div>
+      </ZoomInOutTransition>
+      <FadeInOutTransition show={!AuthStore.initialized}>
+        <InitialLoader />
+      </FadeInOutTransition>
+    </>
+  ));
 };
 
 export default Root;
