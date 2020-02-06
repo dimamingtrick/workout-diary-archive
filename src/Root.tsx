@@ -43,6 +43,7 @@ const Root: React.FC = () => {
       <FadeInOutTransition show={!AuthStore.initialized}>
         <InitialLoader />
       </FadeInOutTransition>
+      <div className="pages-background" />
     </>
   ));
 };

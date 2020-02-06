@@ -1,0 +1,43 @@
+.page-404 {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-size: 5rem;
+    color: #fff;
+  }
+
+  .button-container {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  button {
+    color: #fff;
+    opacity: 0.5;
+    transition: opacity 0.35s;
+
+    .icon {
+      margin-left: 10px;
+      width: 0;
+      height: 20px;
+      transition: all 0.35s;
+    }
+
+    &:hover {
+      color: #fff;
+      opacity: 1;
+      text-decoration: none;
+
+      .icon {
+        opacity: 1;
+        width: 20px;
+      }
+    }
+  }
+}

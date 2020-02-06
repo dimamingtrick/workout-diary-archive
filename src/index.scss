@@ -21,3 +21,32 @@ html,
   flex: 1;
   min-height: 100%;
 }
+
+html,
+body {
+  background-color: #6c757d;
+}
+
+#root {
+  position: relative;
+  overflow: hidden;
+}
+
+.pages {
+  z-index: 1;
+}
+
+.pages-background {
+  position: fixed;
+  display: flex;
+  flex: 1;
+  width: 110%;
+  height: 110%;
+  top: -15px;
+  left: -15px;
+  background: url("./assets/auth-background.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  z-index: 0;
+}

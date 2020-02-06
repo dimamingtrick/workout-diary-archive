@@ -32,6 +32,7 @@ export default class AuthStore {
         console.log("Initialize error:", error);
         if (error.status !== 500) {
           localStorage.removeItem("token");
+          this.initialized = true;
         } else {
           this.initializationError = true;
         }

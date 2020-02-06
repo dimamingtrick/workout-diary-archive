@@ -10,7 +10,7 @@ const ZoomInOutTransition: React.FC<{ children: any; show: boolean }> = ({
   return (
     <CSSTransition
       in={show}
-      timeout={750}
+      timeout={650}
       classNames="zoom-in-out"
       unmountOnExit
     >
