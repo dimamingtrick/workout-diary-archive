@@ -26,7 +26,11 @@ class Api {
       const responseBody = await response.json();
 
       if (!response.ok) {
-        throw responseBody;
+        return Promise.reject({
+          statusText: response.statusText,
+          status: response.status,
+          body: responseBody
+        });
       }
 
       return responseBody;

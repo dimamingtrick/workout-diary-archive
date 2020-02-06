@@ -53,9 +53,9 @@ const LoginPage: React.FC = () => {
     AuthStore.signIn({
       email: email.value,
       password: password.value
-    }).catch(errors => {
+    }).catch(error => {
       setIsLoading(false);
-
+      const errors = error.body;
       if (Array.isArray(errors)) {
         email.setError(getResponseErrorMessage(errors, "email"));
         password.setError(getResponseErrorMessage(errors, "password"));

@@ -11,10 +11,15 @@ interface User {
 
 export default class AuthStore {
   @observable initialized: boolean = false;
+  @observable initializationError: boolean = false;
   @observable isLoggedIn: boolean = false;
   @observable user: User | null = null;
 
   @action async initialize() {
+    if (this.initializationError) {
+      this.initializationError = false;
+    }
+
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -25,10 +30,15 @@ export default class AuthStore {
         this.initialized = true;
       } catch (error) {
         console.log("Initialize error:", error);
-        localStorage.removeItem("token");
+        if (error.status !== 500) {
+          localStorage.removeItem("token");
+        } else {
+          this.initializationError = true;
+        }
       }
+    } else {
+      this.initialized = true;
     }
-    this.initialized = true;
   }
 
   @action async signUp(signUpData: SignUpInterface) {

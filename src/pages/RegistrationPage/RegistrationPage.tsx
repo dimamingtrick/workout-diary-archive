@@ -69,7 +69,8 @@ const RegistrationPage: React.FC = () => {
       name: name.value,
       password: password.value,
       confirmPassword: confirmPassword.value
-    }).catch(errors => {
+    }).catch(error => {
+      const errors = error.body;
       if (Array.isArray(errors)) {
         dispatch({ type: HANDLE_ERRORS_RESPONSE, errors });
       } else {
