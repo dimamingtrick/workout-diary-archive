@@ -17,7 +17,7 @@ const TabItem: React.FC<{
       className={`tab__item ${isActive ? "active" : ""}`}
       onClick={handleClick}
     >
-      {IconComponent && <IconComponent size={25} />}
+      {IconComponent && <IconComponent size={23} />}
       {title && <div className="tab__title">{title}</div>}
     </button>
   );
