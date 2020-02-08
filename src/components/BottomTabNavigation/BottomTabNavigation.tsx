@@ -1,15 +1,19 @@
 import React, { useCallback } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 import { GiStrong } from "react-icons/gi";
 import { FaListUl, FaRegEdit } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 
 import TabItem from "./TabItem";
 import "./bottom-tab-navigation.scss";
+import { useStores } from "../../hooks";
+import { useObserver } from "mobx-react";
 
 const BottomTabNavigation: React.FC = () => {
+  const { WorkoutStore } = useStores();
   const { pathname } = useLocation();
   const { push } = useHistory();
+  const { url } = useRouteMatch();
 
   const handleTabItemClick = useCallback(
     path => {
@@ -18,38 +22,39 @@ const BottomTabNavigation: React.FC = () => {
     [push]
   );
 
-  return (
+  return useObserver(() => (
     <div className="tab">
       <TabItem
         icon={GiStrong}
         title="Workout"
-        path="/"
-        isActive={pathname === "/"}
+        path={url}
+        isActive={pathname === url}
+        className={WorkoutStore.isRunning ? "is-running" : ""}
         onClick={handleTabItemClick}
       />
       <TabItem
         icon={FaListUl}
         title="History"
-        path="/history"
-        isActive={pathname === "/history"}
+        path={`${url}/history`}
+        isActive={pathname === `${url}/history`}
         onClick={handleTabItemClick}
       />
       <TabItem
         icon={FaRegEdit}
         title="Exercises"
-        path="/exercises"
-        isActive={pathname === "/exercises"}
+        path={`${url}/exercises`}
+        isActive={pathname === `${url}/exercises`}
         onClick={handleTabItemClick}
       />
       <TabItem
         icon={IoMdSettings}
         title="Settings"
-        path="/settings"
-        isActive={pathname === "/settings"}
+        path={`${url}/settings`}
+        isActive={pathname === `${url}/settings`}
         onClick={handleTabItemClick}
       />
     </div>
-  );
+  ));
 };
 
 export default BottomTabNavigation;

@@ -15,7 +15,7 @@ export const AuthRoute: React.FC<RouteProps> = observer(
           render={({ location }) => (
             <Redirect
               to={{
-                pathname: "/",
+                pathname: "/app",
                 state: { from: location }
               }}
             />

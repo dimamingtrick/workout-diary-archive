@@ -6,15 +6,25 @@ const TabItem: React.FC<{
   title?: string;
   path: string;
   isActive: boolean;
+  className?: string;
   onClick: (path: string) => void;
-}> = ({ icon: IconComponent, title, path = "", isActive = false, onClick }) => {
+}> = ({
+  icon: IconComponent,
+  title,
+  path = "",
+  isActive = false,
+  className,
+  onClick
+}) => {
   const handleClick = useCallback(() => {
     onClick(path);
   }, [onClick, path]);
 
   return (
     <button
-      className={`tab__item ${isActive ? "active" : ""}`}
+      className={`tab__item ${isActive ? "active" : ""} ${
+        className ? className : ""
+      }`}
       onClick={handleClick}
     >
       {IconComponent && <IconComponent size={23} />}

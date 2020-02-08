@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { useObserver } from "mobx-react";
 
 import Page404 from "./pages/Page404/Page404";
-import DashboardPage from "./pages/DashboardPage/DashboardPage";
+import DashboardPages from "./pages/DashboardPages/DashboardPages";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import { PrivateRoute, AuthRoute } from "./components/Routes";
@@ -27,8 +27,11 @@ const Root: React.FC = () => {
       <ZoomInOutTransition show={AuthStore.initialized}>
         <div className="pages">
           <Switch>
-            <PrivateRoute path="/" exact>
-              <DashboardPage />
+            <Route path="/" exact>
+              <Redirect to={AuthStore.isLoggedIn ? "/app" : "/login"} />
+            </Route>
+            <PrivateRoute path="/app">
+              <DashboardPages />
             </PrivateRoute>
             <AuthRoute path="/login">
               <LoginPage />
