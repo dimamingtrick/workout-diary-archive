@@ -74,7 +74,7 @@ const RegistrationPage: React.FC = () => {
       if (Array.isArray(errors)) {
         dispatch({ type: HANDLE_ERRORS_RESPONSE, errors });
       } else {
-        dispatch({ type: HANDLE_ERROR, error: errors.message });
+        dispatch({ type: HANDLE_ERROR, error: error.message });
       }
     });
   };

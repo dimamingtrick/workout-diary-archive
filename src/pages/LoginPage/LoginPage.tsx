@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
         email.setError(getResponseErrorMessage(errors, "email"));
         password.setError(getResponseErrorMessage(errors, "password"));
       } else {
-        setError(errors.message);
+        setError(error.message);
       }
     });
   };

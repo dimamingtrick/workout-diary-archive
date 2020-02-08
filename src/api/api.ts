@@ -1,10 +1,6 @@
-const apiUrl = process.env.REACT_APP_API_URL;
+import { ApiCall, ErrorResponse } from "../models/auth.model";
 
-interface ApiCall {
-  url: string;
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-  body?: any;
-}
+const apiUrl = process.env.REACT_APP_API_URL;
 
 class Api {
   async _call({ url, method = "GET", body = null }: ApiCall) {
@@ -26,16 +22,20 @@ class Api {
       const responseBody = await response.json();
 
       if (!response.ok) {
-        return Promise.reject({
-          statusText: response.statusText,
-          status: response.status,
-          body: responseBody
-        });
+        return Promise.reject(new ErrorResponse({
+          body: responseBody,
+          message: responseBody.message,
+          status: response.status
+        }));
       }
 
       return responseBody;
     } catch (err) {
-      throw err;
+      throw new ErrorResponse({
+        body: err.message,
+        status: 500,
+        message: err.message
+      });
     }
   }
 
