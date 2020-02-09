@@ -1,12 +1,9 @@
 import React from "react";
 import { List, Skeleton } from "antd";
 
-import {
-  Exercise as ExerciseInterface,
-  SetWithDrop as SetWithDropInterface
-} from "../../models/workout.model";
+import { Exercise as ExerciseInterface } from "../../models/workout.model";
 import ListItemTitle from "./ListItemTitle";
-import Set from "./Set";
+import SetsList from "./SetsList";
 import "./exercise.scss";
 
 const Exercise: React.FC<{
@@ -22,14 +19,7 @@ const Exercise: React.FC<{
             <ListItemTitle className="exercise__title">{`${number}) ${exercise.name}`}</ListItemTitle>
           }
         />
-        <List
-          className="sets"
-          itemLayout="vertical"
-          dataSource={exercise.sets}
-          renderItem={(set: SetWithDropInterface, setIndex: number) => (
-            <Set set={set} number={setIndex + 1} />
-          )}
-        />
+        <SetsList sets={exercise.sets} />
       </Skeleton>
     </List.Item>
   );

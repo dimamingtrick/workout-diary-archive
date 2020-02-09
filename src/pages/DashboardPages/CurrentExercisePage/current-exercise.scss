@@ -1,0 +1,17 @@
+.exercise-input {
+  display: inline-block !important;
+  width: 48%;
+
+  span.ant-form-item-children {
+    display: block;
+    width: 100%;
+
+    & > .ant-input-number {
+      width: 100%;
+    }
+  }
+}
+
+.reps-input {
+  float: right;
+}

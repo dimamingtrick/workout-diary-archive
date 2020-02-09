@@ -1,7 +1,7 @@
 import React from "react";
 import { List } from "antd";
 
-import DropSet from "./DropSet";
+import DropSetsList from "./DropSetsList";
 import ListItemTitle from "./ListItemTitle";
 import ListItemDescription from "./ListItemDescription";
 import { SetWithDrop } from "../../models/workout.model";
@@ -24,16 +24,7 @@ const Set: React.FC<{ set: SetWithDrop; number: number }> = ({
           )
         }
       />
-      {set.dropSets && (
-        <List
-          className="dropsets"
-          itemLayout="horizontal"
-          dataSource={set.dropSets}
-          renderItem={(set: SetWithDrop, setIndex: number) => (
-            <DropSet set={set} number={setIndex + 1} />
-          )}
-        />
-      )}
+      {set.dropSets && <DropSetsList sets={set.dropSets} />}
     </List.Item>
   );
 };

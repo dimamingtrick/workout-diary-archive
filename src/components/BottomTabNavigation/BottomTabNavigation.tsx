@@ -28,7 +28,7 @@ const BottomTabNavigation: React.FC = () => {
         icon={GiStrong}
         title="Workout"
         path={url}
-        isActive={pathname === url}
+        isActive={pathname === url || pathname === `${url}/current-exercise`}
         className={WorkoutStore.isRunning ? "is-running" : ""}
         onClick={handleTabItemClick}
       />

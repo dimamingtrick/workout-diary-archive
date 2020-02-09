@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 
-import { Workout, Exercise, SetWithDrop, Set } from "../models/workout.model";
+import { Workout, Exercise, Set } from "../models/workout.model";
 
 export default class WorkoutStore {
   timerInterval: any;
@@ -13,6 +13,10 @@ export default class WorkoutStore {
   @action startWorkout() {
     this.isRunning = true;
     this.date = new Date();
+    this.currentExercise = {
+      name: "",
+      sets: []
+    }
     this.timerInterval = setInterval(() => {
       this.timer = this.timer + 1;
     }, 1000);
@@ -28,6 +32,12 @@ export default class WorkoutStore {
       name,
       sets: []
     };
+  }
+
+  @action setExerciseName(name: string) {
+    if (this.currentExercise) {
+      this.currentExercise.name = name;
+    }
   }
 
   @action addSet(

@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { useObserver } from "mobx-react";
 import { List, Button } from "antd";
 
@@ -95,6 +96,8 @@ const exercises: Array<ExerciseInterface> = [
 ];
 
 const WorkoutPage: React.FC = () => {
+  const { push } = useHistory();
+  const { url } = useRouteMatch();
   const { WorkoutStore } = useStores();
 
   const handleStartWorkout = useCallback(() => {
@@ -108,6 +111,9 @@ const WorkoutPage: React.FC = () => {
           Start workout
         </Button>
       )}
+      <button onClick={() => push(`${url}/current-exercise`)}>
+        go to curr
+      </button>
       {WorkoutStore.isRunning && (
         <List
           className="exercise"

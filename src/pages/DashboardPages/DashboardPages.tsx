@@ -3,6 +3,7 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { useObserver } from "mobx-react";
 
 import WorkoutPage from "./WorkoutPage/WorkoutPage";
+import CurrentExercisePage from "./CurrentExercisePage/CurrentExercisePage";
 import WorkoutHistoryPage from "./WorkoutHistoryPage/WorkoutHistoryPage";
 import ExercisesPage from "./ExercisesPage/ExercisesPage";
 import SettingsPage from "./SettingsPage/SettingsPage";
@@ -13,23 +14,26 @@ import Header from "../../components/Header";
 import "./dashboard.scss";
 
 const DashboardPages: React.FC = () => {
-  const match = useRouteMatch();
+  const { url } = useRouteMatch();
 
   return useObserver(() => (
     <>
       <div className="page-wrapper">
         <Header />
         <Switch>
-          <Route path={`${match.url}`} exact>
+          <Route path={`${url}`} exact>
             <WorkoutPage />
           </Route>
-          <Route path={`${match.url}/history`}>
+          <Route path={`${url}/current-exercise`}>
+            <CurrentExercisePage />
+          </Route>
+          <Route path={`${url}/history`}>
             <WorkoutHistoryPage />
           </Route>
-          <Route path={`${match.url}/exercises`}>
+          <Route path={`${url}/exercises`}>
             <ExercisesPage />
           </Route>
-          <Route path={`${match.url}/settings`}>
+          <Route path={`${url}/settings`}>
             <SettingsPage />
           </Route>
           <Route component={Page404} />
