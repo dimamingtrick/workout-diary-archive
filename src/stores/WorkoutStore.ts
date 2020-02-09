@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
+import uuid from "uuid";
 
-import { Workout, Exercise, Set } from "../models/workout.model";
+import { Workout, Exercise, SetWithDrop } from "../models/workout.model";
 
 export default class WorkoutStore {
   timerInterval: any;
@@ -13,10 +14,6 @@ export default class WorkoutStore {
   @action startWorkout() {
     this.isRunning = true;
     this.date = new Date();
-    this.currentExercise = {
-      name: "",
-      sets: []
-    }
     this.timerInterval = setInterval(() => {
       this.timer = this.timer + 1;
     }, 1000);
@@ -40,13 +37,30 @@ export default class WorkoutStore {
     }
   }
 
-  @action addSet(
-    weight: number,
-    reps: number,
-    comment?: string,
-    dropSets?: Array<Set>
-  ) {
-    this.currentExercise!.sets.push({ weight, reps, comment, dropSets });
+  @action addSet({ weight, reps, comment, dropSets }: SetWithDrop) {
+    this.currentExercise!.sets.push({
+      id: uuid(),
+      weight,
+      reps,
+      comment,
+      dropSets
+    });
+  }
+
+  @action editSet(id: string, set: SetWithDrop) {
+    const selectedExercise = this.currentExercise!.sets.find(
+      set => set.id === id
+    );
+    if (this.currentExercise && selectedExercise) {
+      this.currentExercise.sets = this.currentExercise.sets.map(
+        (i: SetWithDrop) => {
+          if (i.id === id) {
+            i = set;
+          }
+          return i;
+        }
+      );
+    }
   }
 
   @action completeExercise() {

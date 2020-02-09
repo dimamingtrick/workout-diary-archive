@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { List } from "antd";
 
 import DropSetsList from "./DropSetsList";
@@ -6,15 +6,25 @@ import ListItemTitle from "./ListItemTitle";
 import ListItemDescription from "./ListItemDescription";
 import { SetWithDrop } from "../../models/workout.model";
 
-const Set: React.FC<{ set: SetWithDrop; number: number }> = ({
-  set,
-  number
-}) => {
+const Set: React.FC<{
+  set: SetWithDrop;
+  number: number;
+  onSetEditClick?: (set: SetWithDrop) => void;
+}> = ({ set, number, onSetEditClick }) => {
+  const handleEditClick = useCallback(() => {
+    if (onSetEditClick) {
+      onSetEditClick(set);
+    }
+  }, [onSetEditClick, set]);
+
   return (
     <List.Item className="set">
       <List.Item.Meta
         title={
-          <ListItemTitle className="set__title">{`${number}. ${set.weight}kg - ${set.reps}`}</ListItemTitle>
+          <ListItemTitle
+            className="set__title"
+            onEditClick={handleEditClick}
+          >{`${number}. ${set.weight}kg - ${set.reps}`}</ListItemTitle>
         }
         description={
           set.comment && (

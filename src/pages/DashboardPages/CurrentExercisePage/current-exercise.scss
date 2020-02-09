@@ -1,3 +1,5 @@
+@import "../../../assets/colors.scss";
+
 .exercise-input {
   display: inline-block !important;
   width: 48%;
@@ -14,4 +16,33 @@
 
 .reps-input {
   float: right;
+}
+
+.exercise-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    flex: 1;
+    border-radius: 0;
+    padding: 10px;
+    height: auto;
+  }
+}
+
+.ant-btn.add-set-button {
+  width: 100%;
+  background-color: rgba($success, 0.75);
+  color: rgba(#fff, 0.75);
+  padding: 7px;
+  height: auto;
+
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: $success;
+    background-color: rgba($success, 0.9);
+    color: #fff;
+  }
 }
