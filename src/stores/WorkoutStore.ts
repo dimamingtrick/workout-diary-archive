@@ -27,9 +27,9 @@ export default class WorkoutStore {
     clearInterval(this.timerInterval);
   }
 
-  @action startNewExercise(name: string) {
+  @action startNewExercise() {
     this.currentExercise = {
-      name,
+      name: "",
       sets: []
     };
   }
@@ -54,6 +54,10 @@ export default class WorkoutStore {
       this.exercises.push(this.currentExercise);
       this.currentExercise = null;
     }
+  }
+
+  @action cancelExercise() {
+    this.currentExercise = null;
   }
 
   @action finishWorkout() {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { List } from "antd";
 
 import ListItemTitle from "./ListItemTitle";
@@ -22,4 +22,4 @@ const DropSet: React.FC<{ set: Set; number: number }> = ({ set, number }) => {
   );
 };
 
-export default DropSet;
+export default memo(DropSet);

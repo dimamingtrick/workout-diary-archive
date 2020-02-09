@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { List } from "antd";
 
 import DropSetsList from "./DropSetsList";
@@ -29,4 +29,4 @@ const Set: React.FC<{ set: SetWithDrop; number: number }> = ({
   );
 };
 
-export default Set;
+export default memo(Set);

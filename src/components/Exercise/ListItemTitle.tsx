@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Button } from "antd";
 
 const ListItemTitle: React.FC<{
@@ -16,4 +16,4 @@ const ListItemTitle: React.FC<{
   );
 };
 
-export default ListItemTitle;
+export default memo(ListItemTitle);

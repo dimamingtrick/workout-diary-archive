@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const ListItemDescription: React.FC<{
   className?: string;
@@ -7,4 +7,4 @@ const ListItemDescription: React.FC<{
   return <div className={`list-item-description ${className}`}>{children}</div>;
 };
 
-export default ListItemDescription;
+export default memo(ListItemDescription);

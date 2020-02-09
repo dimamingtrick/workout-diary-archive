@@ -13,6 +13,9 @@ const SetsList: React.FC<{ sets: SetWithDropInterface[] }> = ({ sets }) => {
       renderItem={(set: SetWithDropInterface, setIndex: number) => (
         <Set set={set} number={setIndex + 1} />
       )}
+      locale={{
+        emptyText: "No sets yet"
+      }}
     />
   );
 };

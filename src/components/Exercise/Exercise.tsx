@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { List, Skeleton } from "antd";
 
 import { Exercise as ExerciseInterface } from "../../models/workout.model";
@@ -25,4 +25,4 @@ const Exercise: React.FC<{
   );
 };
 
-export default Exercise;
+export default memo(Exercise);
