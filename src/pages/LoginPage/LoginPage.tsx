@@ -1,11 +1,17 @@
 import React, { useState, useCallback } from "react";
 import { useObserver } from "mobx-react";
-import { Container, Button, Form, Spinner } from "reactstrap";
+import { Button } from "antd";
 
 import { useStores } from "../../hooks";
 import { useFormInput } from "../../hooks";
 import { validateEmail, getResponseErrorMessage } from "../../helpers";
-import { Input, Card, CardTitle, ErrorMessage } from "../../components/common";
+import {
+  Container,
+  Input,
+  Card,
+  CardTitle,
+  ErrorMessage
+} from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import AuthLink from "../../components/AuthLink";
 import { ErrorMessageAnimated } from "../../components/animations";
@@ -69,7 +75,7 @@ const LoginPage: React.FC = () => {
     <Container fluid className="auth-page">
       <Card className="auth-card">
         <CardTitle>Login</CardTitle>
-        <Form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <Input
             id="exampleEmail"
             name="email"
@@ -106,13 +112,20 @@ const LoginPage: React.FC = () => {
           <ErrorMessageAnimated showError={error !== ""}>
             <ErrorMessage className="auth-error-message">{error}</ErrorMessage>
           </ErrorMessageAnimated>
-          <Button className="auth-submit-btn" disabled={isLoading}>
-            {isLoading ? <Spinner color="light" size="sm" /> : "Sign In"}
+          <Button
+            className="auth-submit-btn"
+            loading={isLoading}
+            disabled={isLoading}
+            type="primary"
+            size="large"
+            htmlType="submit"
+          >
+            Sign In
           </Button>
           <AuthLink to="/registration" disabled={isLoading}>
             Sign Up
           </AuthLink>
-        </Form>
+        </form>
       </Card>
     </Container>
   ));

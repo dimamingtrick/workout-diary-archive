@@ -27,7 +27,7 @@ const TabItem: React.FC<{
       }`}
       onClick={handleClick}
     >
-      {IconComponent && <IconComponent size={23} />}
+      {IconComponent && <IconComponent size={18} />}
       {title && <div className="tab__title">{title}</div>}
     </button>
   );

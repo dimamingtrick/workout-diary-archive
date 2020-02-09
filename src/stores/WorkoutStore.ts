@@ -1,25 +1,58 @@
-import { observable, action } from "mobx"
+import { observable, action } from "mobx";
 
-interface CurrentExercise {
-  login?: string;
-  email?: string;
-  avatar?: string;
-}
+import { Workout, Exercise, SetWithDrop, Set } from "../models/workout.model";
 
 export default class WorkoutStore {
-  @observable isRunning: boolean = false;
-  @observable timer: number = 0;
   timerInterval: any;
+  @observable isRunning: boolean = false;
+  @observable date: Date = new Date();
+  @observable timer: number = 0;
+  @observable currentExercise: Exercise | null = null;
+  @observable exercises: Array<Exercise> = [];
 
   @action startWorkout() {
     this.isRunning = true;
+    this.date = new Date();
     this.timerInterval = setInterval(() => {
       this.timer = this.timer + 1;
-    }, 1000)
+    }, 1000);
   }
 
   @action stopWorkout() {
     this.isRunning = false;
-    clearInterval(this.timerInterval)
+    clearInterval(this.timerInterval);
+  }
+
+  @action startNewExercise(name: string) {
+    this.currentExercise = {
+      name,
+      sets: []
+    };
+  }
+
+  @action addSet(
+    weight: number,
+    reps: number,
+    comment?: string,
+    dropSets?: Array<Set>
+  ) {
+    this.currentExercise!.sets.push({ weight, reps, comment, dropSets });
+  }
+
+  @action completeExercise() {
+    if (this.currentExercise) {
+      this.exercises.push(this.currentExercise);
+      this.currentExercise = null;
+    }
+  }
+
+  @action finishWorkout() {
+    this.stopWorkout();
+    const workout: Workout = {
+      date: this.date,
+      timer: this.timer,
+      exercises: this.exercises
+    };
+    console.log(workout);
   }
 }

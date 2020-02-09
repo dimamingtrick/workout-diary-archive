@@ -5,9 +5,9 @@ import { FaListUl, FaRegEdit } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 
 import TabItem from "./TabItem";
-import "./bottom-tab-navigation.scss";
 import { useStores } from "../../hooks";
 import { useObserver } from "mobx-react";
+import "./bottom-tab-navigation.scss";
 
 const BottomTabNavigation: React.FC = () => {
   const { WorkoutStore } = useStores();

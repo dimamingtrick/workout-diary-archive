@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useObserver } from "mobx-react";
-import { Button } from "reactstrap";
+import { Button } from "antd";
 
 import { useStores } from "../../hooks";
 import { FadeInOutTransition } from "../animations";
@@ -33,11 +33,7 @@ const InitialLoader: React.FC = () => {
       <FadeInOutTransition show={AuthStore.initializationError}>
         <div className="errorContainer">
           <ErrorMessage className="errorMessage">Error</ErrorMessage>
-          <Button
-            className="tryAgainBtn"
-            color="link"
-            onClick={initializeAgain}
-          >
+          <Button className="tryAgainBtn" type="link" onClick={initializeAgain}>
             Try again
           </Button>
         </div>

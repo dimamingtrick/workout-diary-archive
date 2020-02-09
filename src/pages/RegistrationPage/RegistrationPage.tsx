@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useCallback } from "react";
 import { useObserver } from "mobx-react";
-import { Container, Row, Col, Button, Form, Spinner } from "reactstrap";
+import { Button, Row, Col } from "antd";
 
 import { useStores } from "../../hooks";
 import {
@@ -15,7 +15,13 @@ import {
   HANDLE_ERRORS_RESPONSE,
   HANDLE_ERROR
 } from "./registrationReducer";
-import { Input, Card, CardTitle, ErrorMessage } from "../../components/common";
+import {
+  Input,
+  Card,
+  CardTitle,
+  ErrorMessage,
+  Container
+} from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import AuthLink from "../../components/AuthLink";
 import "./registration-page.scss";
@@ -83,7 +89,7 @@ const RegistrationPage: React.FC = () => {
     <Container fluid className="auth-page">
       <Card className="auth-card">
         <CardTitle>Registration</CardTitle>
-        <Form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <Input
             id="email"
             name="email"
@@ -113,8 +119,8 @@ const RegistrationPage: React.FC = () => {
             disabled={isLoading}
           />
 
-          <Row form>
-            <Col md={6}>
+          <Row justify="space-between" type="flex">
+            <Col md={11} xs={24}>
               <Input
                 id="password"
                 name="password"
@@ -130,7 +136,7 @@ const RegistrationPage: React.FC = () => {
                 disabled={isLoading}
               />
             </Col>
-            <Col md={6}>
+            <Col md={11} xs={24}>
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -158,13 +164,20 @@ const RegistrationPage: React.FC = () => {
           <ErrorMessageAnimated showError={error !== ""}>
             <ErrorMessage className="auth-error-message">{error}</ErrorMessage>
           </ErrorMessageAnimated>
-          <Button className="auth-submit-btn" disabled={isLoading}>
-            {isLoading ? <Spinner color="light" size="sm" /> : "Sign Up"}
+          <Button
+            className="auth-submit-btn"
+            loading={isLoading}
+            disabled={isLoading}
+            type="primary"
+            size="large"
+            htmlType="submit"
+          >
+            Sign Up
           </Button>
           <AuthLink to="/login" disabled={isLoading}>
             Sign In
           </AuthLink>
-        </Form>
+        </form>
       </Card>
     </Container>
   ));

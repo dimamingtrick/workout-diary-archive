@@ -5,7 +5,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Root from "./Root";
 import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "antd/dist/antd.css";
 
 const App: React.FC = () => {
   return (

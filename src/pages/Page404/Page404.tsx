@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Button } from "reactstrap";
+import { Button } from "antd";
 import { FaArrowCircleRight } from "react-icons/fa";
 
 import "./page-404.scss";
@@ -16,7 +16,7 @@ const Page404: React.FC = () => {
     <div className="auth-page page-404">
       <div>
         <span>404 not found</span>
-        <Button onClick={goToHomePage} color="link" size="lg" block>
+        <Button onClick={goToHomePage} type="link" size="large">
           <div className="button-container">
             <div>Go to dashboard</div>
             <FaArrowCircleRight className="icon" />
