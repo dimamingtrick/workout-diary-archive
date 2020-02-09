@@ -10,7 +10,7 @@ const AddSetModalForm: React.FC<{
 }> = ({ visible = false, onCancel, onOk }) => {
   const { WorkoutStore } = useStores();
   const [weight, setWeight] = useState(0);
-  const [reps, setReps] = useState(0);
+  const [reps, setReps] = useState();
   const [comment, setComment] = useState("");
 
   const formIsValid = useMemo(() => {
@@ -35,7 +35,6 @@ const AddSetModalForm: React.FC<{
 
   const handleSubmit = () => {
     WorkoutStore.addSet(weight, reps, comment);
-    console.log("submit");
     onOk();
   };
 
