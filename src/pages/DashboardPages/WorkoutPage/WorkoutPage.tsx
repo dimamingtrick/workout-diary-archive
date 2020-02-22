@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useObserver } from "mobx-react";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 import { Page, Header } from "../../../components/common";
 import { ExerciseList } from "../../../components/Exercise";
@@ -49,7 +49,17 @@ const WorkoutPage: React.FC = () => {
 
   const handleDeleteExercise = useCallback(
     (exercise: Exercise) => {
-      WorkoutStore.deleteExercise(exercise);
+      Modal.confirm({
+        title: "Do you want to delete this exercise ?",
+        content: "You will not be able to return it",
+        okText: "Yes",
+        okType: "danger",
+        cancelText: "No",
+        maskClosable: true,
+        transitionName: "fade",
+        centered: true,
+        onOk: () => WorkoutStore.deleteExercise(exercise)
+      });
     },
     [WorkoutStore]
   );

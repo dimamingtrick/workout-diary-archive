@@ -87,7 +87,6 @@ export default class WorkoutStore {
         id: uuid(),
         ...this.currentExercise
       });
-      this.openExercises.push(this.exercises.length);
     } else {
       this.exercises = this.exercises.map((exercise: Exercise) => {
         if (exercise.id === this.currentExercise!.id) {
@@ -97,6 +96,7 @@ export default class WorkoutStore {
       });
     }
 
+    this.openExercises.push(this.exercises.length);
     this.currentExercise = null;
   }
 
@@ -105,7 +105,7 @@ export default class WorkoutStore {
   }
 
   @action editExercise(exercise: Exercise) {
-    this.currentExercise = exercise;
+    this.currentExercise = { ...exercise };
   }
 
   @action deleteExercise(deletedExercise: Exercise) {

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Input, Button, Icon } from "antd";
+import { Input, Button, Icon, Modal } from "antd";
 import { useHistory, Redirect } from "react-router-dom";
 import { useObserver } from "mobx-react";
 
@@ -48,8 +48,29 @@ const CurrentExercisePage: React.FC = () => {
   }, [WorkoutStore, push]);
 
   const handleCancelExercise = useCallback(() => {
-    WorkoutStore.cancelExercise();
-    push("/app");
+    function cancelExercise() {
+      WorkoutStore.cancelExercise();
+      push("/app");
+    }
+
+    if (
+      WorkoutStore.currentExercise?.name === "" ||
+      WorkoutStore.currentExercise?.sets.length === 0
+    ) {
+      cancelExercise();
+    } else {
+      Modal.confirm({
+        title: "Do you want to cancel this exercise ?",
+        content: "You will not be able to return it's values",
+        okText: "Yes",
+        okType: "danger",
+        cancelText: "No",
+        maskClosable: true,
+        transitionName: "fade",
+        centered: true,
+        onOk: cancelExercise
+      });
+    }
   }, [WorkoutStore, push]);
 
   const handleEditSet = useCallback((set: SetWithDrop) => {
@@ -59,7 +80,17 @@ const CurrentExercisePage: React.FC = () => {
 
   const handleDeleteSet = useCallback(
     (set: SetWithDrop) => {
-      WorkoutStore.deleteSet(set);
+      Modal.confirm({
+        title: "Do you want to delete this set ?",
+        content: "You will not be able to return it",
+        okText: "Yes",
+        okType: "danger",
+        cancelText: "No",
+        maskClosable: true,
+        transitionName: "fade",
+        centered: true,
+        onOk: () => WorkoutStore.deleteSet(set)
+      });
     },
     [WorkoutStore]
   );
