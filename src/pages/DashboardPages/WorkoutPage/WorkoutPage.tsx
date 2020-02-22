@@ -18,6 +18,10 @@ const WorkoutPage: React.FC = () => {
     WorkoutStore.startWorkout();
   }, [WorkoutStore]);
 
+  const handleFinishWorkout = useCallback(() => {
+    WorkoutStore.finishWorkout();
+  }, [WorkoutStore]);
+
   const handleAddExercise = useCallback(() => {
     if (!WorkoutStore.currentExercise) {
       WorkoutStore.startNewExercise();
@@ -83,6 +87,22 @@ const WorkoutPage: React.FC = () => {
           </>
         )}
       </Page>
+      {WorkoutStore.isRunning && (
+        <div className="exercise-actions">
+          <Button
+            type="primary"
+            className="finish-workout-button"
+            onClick={handleFinishWorkout}
+            disabled={
+              !WorkoutStore.isRunning ||
+              WorkoutStore.exercises.length === 0 ||
+              !!WorkoutStore.currentExercise
+            }
+          >
+            Finish Workout
+          </Button>
+        </div>
+      )}
     </>
   ));
 };

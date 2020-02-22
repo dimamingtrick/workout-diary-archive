@@ -21,3 +21,15 @@
     color: #fff;
   }
 }
+
+.finish-workout-button {
+  background-color: $success !important;
+  border-color: $success !important;
+
+  &[disabled] {
+    background-color: $success !important;
+    border-color: $success !important;
+    color: #fff !important;
+    opacity: 0.65;
+  }
+}

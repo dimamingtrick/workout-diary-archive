@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 import uuid from "uuid";
 import moment from "moment";
 
@@ -211,7 +211,9 @@ export default class WorkoutStore {
   }
 
   @action deleteExercise(deletedExercise: Exercise) {
-    this.exercises = this.exercises.filter(exercise => exercise.id !== deletedExercise.id);
+    this.exercises = this.exercises.filter(
+      exercise => exercise.id !== deletedExercise.id
+    );
   }
 
   @action toggleOpenExercise({
@@ -229,11 +231,20 @@ export default class WorkoutStore {
   }
 
   @action finishWorkout() {
+    if (
+      !this.isRunning ||
+      !this.exercises ||
+      this.exercises.length === 0 ||
+      !!this.currentExercise
+    ) {
+      return;
+    }
+
     this.stopWorkout();
     const workout: Workout = {
       date: this.date,
-      timer: "a",
-      exercises: this.exercises
+      timer: this.timer,
+      exercises: toJS(this.exercises)
     };
     console.log(workout);
   }
