@@ -18,14 +18,29 @@ const WorkoutPage: React.FC = () => {
     const workoutPageScrollTop = localStorage.getItem("workoutPageScrollTop");
     document.querySelector(".workout-page")!.scrollTop =
       Number(workoutPageScrollTop) || 0;
-  }, []);
 
-  const handlePageScroll = useCallback(e => {
-    localStorage.setItem("workoutPageScrollTop", e.target.scrollTop);
+    return () => {
+      const scrollTop = document.querySelector(".workout-page")!.scrollTop;
+      localStorage.setItem("workoutPageScrollTop", `${scrollTop}`);
+    };
   }, []);
 
   const handleStartWorkout = useCallback(() => {
     WorkoutStore.startWorkout();
+  }, [WorkoutStore]);
+
+  const handleCancelWorkout = useCallback(() => {
+    Modal.confirm({
+      title: "Do you want to cancel this workout ?",
+      content: "You will not be able to return it",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      maskClosable: true,
+      transitionName: "fade",
+      centered: true,
+      onOk: () => WorkoutStore.cancelWorkout()
+    });
   }, [WorkoutStore]);
 
   const handleFinishWorkout = useCallback(() => {
@@ -88,7 +103,6 @@ const WorkoutPage: React.FC = () => {
         className={`workout-page ${
           !WorkoutStore.isRunning ? "is-running" : ""
         }`}
-        onScroll={handlePageScroll}
       >
         {!WorkoutStore.isRunning && (
           <Button onClick={handleStartWorkout} size="large">
@@ -114,6 +128,9 @@ const WorkoutPage: React.FC = () => {
       </Page>
       {WorkoutStore.isRunning && (
         <div className="exercise-actions">
+          <Button type="danger" onClick={handleCancelWorkout}>
+            Cancel Workout
+          </Button>
           <Button
             type="primary"
             className="finish-workout-button"
