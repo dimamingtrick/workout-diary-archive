@@ -7,8 +7,8 @@ import AddSetModalForm from "../../../components/AddSetModalForm";
 import { Page, Header } from "../../../components/common";
 import { SetsList } from "../../../components/Exercise";
 import { useStores } from "../../../hooks";
-import "./current-exercise.scss";
 import { SetWithDrop } from "../../../models/workout.model";
+import "./current-exercise.scss";
 
 const CurrentExercisePage: React.FC = () => {
   const { WorkoutStore } = useStores();
@@ -39,6 +39,12 @@ const CurrentExercisePage: React.FC = () => {
   const handleCompleteExercise = useCallback(() => {
     WorkoutStore.completeExercise();
     push("/app");
+    setTimeout(() => {
+      document.querySelector(".workout-page")?.scrollTo({
+        top: 10000,
+        behavior: "smooth"
+      });
+    });
   }, [WorkoutStore, push]);
 
   const handleCancelExercise = useCallback(() => {
@@ -77,7 +83,7 @@ const CurrentExercisePage: React.FC = () => {
             </Button>
           }
         />
-        <Page>
+        <Page className="current-exercise-page">
           <Input
             size="large"
             placeholder="Exercise"

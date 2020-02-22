@@ -3,12 +3,22 @@ import Container from "../Container/Container";
 
 import "./page.scss";
 
-const Page: React.FC<{ children: any; className?: string }> = ({
-  children,
-  className
-}) => {
+interface PageProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > {
+  children: any;
+  className?: string;
+}
+
+const Page: React.FC<PageProps> = ({ children, className, ...props }) => {
   return (
-    <Container fluid className={`page ${className ? className : ""}`}>
+    <Container
+      fluid
+      className={`page ${className ? className : ""}`}
+      {...props}
+    >
       {children}
     </Container>
   );

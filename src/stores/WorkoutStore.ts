@@ -1,124 +1,15 @@
 import { observable, action, toJS } from "mobx";
 import uuid from "uuid";
 import moment from "moment";
-
 import { Workout, Exercise, SetWithDrop } from "../models/workout.model";
-const exercises = [
-  {
-    name: "Squat",
-    id: "ASDJIOASJDOI",
-    sets: [
-      {
-        id: "ASDJIOASJDOI12",
-        weight: 100,
-        reps: 10,
-        comment: "That was pretty easy, can do more"
-      },
-      {
-        id: "ASDJIOASJDOI23123",
 
-        weight: 100,
-        reps: 10
-      },
-      {
-        id: "ASDJIOASJDO123123",
-
-        weight: 100,
-        reps: 10,
-        comment: "That set was the vest set in my life",
-        dropSets: [
-          {
-            id: "ASDJIOASJDOI123123123123",
-
-            weight: 50,
-            reps: 20,
-            comment: "FUcking hell"
-          },
-          {
-            id: "ASDJIOASJDOIfwqfqwf",
-
-            weight: 20,
-            reps: 20,
-            comment: "Easy can do more"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    name: "Dips",
-    id: "ASDJIOASJDO2",
-    sets: [
-      {
-        id: "ASDJIOASJDOIfawefwaegrawhwe",
-
-        weight: 75,
-        reps: 5,
-        comment: "I can do a lot more dips"
-      },
-      {
-        id: "ASDJIOASJDOI2131d211",
-
-        weight: 75,
-        reps: 5,
-        dropSets: [
-          {
-            id: "ASDJIOASJDOI123kmknj",
-
-            weight: 0,
-            reps: 50
-          }
-        ],
-        comment: "Hard as fuck"
-      }
-    ]
-  },
-  {
-    name: "Squat",
-    id: "ASDJIOASJDOI23",
-    sets: [
-      {
-        id: "12cz",
-
-        weight: 100,
-        reps: 10,
-        comment: "That was pretty easy, can do more"
-      },
-      {
-        id: "asdadsasda",
-        weight: 100,
-        reps: 10
-      },
-      {
-        id: "123123qweqwe",
-        weight: 100,
-        reps: 10,
-        comment: "That set was the vest set in my life",
-        dropSets: [
-          {
-            id: "ASDjada8j9j",
-            weight: 50,
-            reps: 20,
-            comment: "FUcking hell"
-          },
-          {
-            id: "ASDNOIASJDASND&*",
-            weight: 20,
-            reps: 20,
-            comment: "Easy can do more"
-          }
-        ]
-      }
-    ]
-  }
-];
 export default class WorkoutStore {
   timerInterval: any;
   @observable isRunning: boolean = false;
   @observable date: Date = new Date();
   @observable timer: string = "00:00:00";
   @observable currentExercise: Exercise | null = null;
-  @observable exercises: Array<Exercise> = exercises;
+  @observable exercises: Array<Exercise> = [];
   @observable openExercises: Array<number> = [];
 
   @action startWorkout() {
@@ -133,6 +24,9 @@ export default class WorkoutStore {
 
   @action stopWorkout() {
     this.isRunning = false;
+    this.exercises = [];
+    this.timer = "00:00:00";
+    this.openExercises = [];
     clearInterval(this.timerInterval);
   }
 
@@ -156,6 +50,10 @@ export default class WorkoutStore {
       reps,
       comment,
       dropSets
+    });
+    document.querySelector(".current-exercise-page")?.scrollTo({
+      top: 10000,
+      behavior: "smooth"
     });
   }
 

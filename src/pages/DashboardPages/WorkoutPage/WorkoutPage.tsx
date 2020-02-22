@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useObserver } from "mobx-react";
 import { Button } from "antd";
@@ -13,6 +13,16 @@ const WorkoutPage: React.FC = () => {
   const { push } = useHistory();
   const { url } = useRouteMatch();
   const { WorkoutStore } = useStores();
+
+  useEffect(() => {
+    const workoutPageScrollTop = localStorage.getItem("workoutPageScrollTop");
+    document.querySelector(".workout-page")!.scrollTop =
+      Number(workoutPageScrollTop) || 0;
+  }, []);
+
+  const handlePageScroll = useCallback(e => {
+    localStorage.setItem("workoutPageScrollTop", e.target.scrollTop);
+  }, []);
 
   const handleStartWorkout = useCallback(() => {
     WorkoutStore.startWorkout();
@@ -64,7 +74,12 @@ const WorkoutPage: React.FC = () => {
   return useObserver(() => (
     <>
       <Header left="Workout" />
-      <Page className={!WorkoutStore.isRunning ? "is-running" : ""}>
+      <Page
+        className={`workout-page ${
+          !WorkoutStore.isRunning ? "is-running" : ""
+        }`}
+        onScroll={handlePageScroll}
+      >
         {!WorkoutStore.isRunning && (
           <Button onClick={handleStartWorkout} size="large">
             Start workout

@@ -2,13 +2,27 @@ import React from "react";
 
 import "./container.scss";
 
-const Container: React.FC<{
+interface ContainerProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > {
   fluid?: boolean;
   className?: string;
   children: React.ReactNode;
-}> = ({ fluid, className = "", children }) => {
+}
+
+const Container: React.FC<ContainerProps> = ({
+  fluid,
+  className = "",
+  children,
+  ...props
+}) => {
   return (
-    <div className={`${fluid ? "container-fluid" : "container"} ${className}`}>
+    <div
+      className={`${fluid ? "container-fluid" : "container"} ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );

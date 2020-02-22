@@ -1,5 +1,9 @@
 @import "../../../assets/colors.scss";
 
+.current-exercise-page {
+  scroll-behavior: smooth;
+}
+
 .exercise-input {
   display: inline-block !important;
   width: 48%;
