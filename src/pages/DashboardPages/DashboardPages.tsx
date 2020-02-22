@@ -10,7 +10,6 @@ import SettingsPage from "./SettingsPage/SettingsPage";
 import Page404 from "../Page404/Page404";
 
 import BottomTabNavigation from "../../components/BottomTabNavigation";
-import WorkoutTimer from "../../components/WorkoutTimer";
 import "./dashboard.scss";
 
 const DashboardPages: React.FC = () => {
@@ -39,7 +38,6 @@ const DashboardPages: React.FC = () => {
         </Switch>
       </div>
       <BottomTabNavigation />
-      <WorkoutTimer />
     </>
   ));
 };

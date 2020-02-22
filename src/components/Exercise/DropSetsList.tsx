@@ -1,19 +1,19 @@
 import React from "react";
-import { List } from "antd";
 
 import DropSet from "./DropSet";
 import { SetWithDrop } from "../../models/workout.model";
 
-const DropSetsList: React.FC<{ sets: SetWithDrop[] }> = ({ sets }) => {
+interface DropSetsListProps {
+  sets: SetWithDrop[];
+}
+
+const DropSetsList: React.FC<DropSetsListProps> = ({ sets }) => {
   return (
-    <List
-      className="dropsets"
-      itemLayout="horizontal"
-      dataSource={sets}
-      renderItem={(set: SetWithDrop, setIndex: number) => (
-        <DropSet set={set} number={setIndex + 1} />
-      )}
-    />
+    <ul className="dropsets">
+      {sets.map((set: SetWithDrop, setIndex: number) => (
+        <DropSet key={`dropset-${set.id}`} set={set} number={setIndex + 1} />
+      ))}
+    </ul>
   );
 };
 

@@ -4,12 +4,19 @@ import { Input, Modal, InputNumber, Form } from "antd";
 import { SetWithDrop } from "../../models/workout.model";
 import { useStores } from "../../hooks";
 
-const AddSetModalForm: React.FC<{
+interface AddSetModalFormProps {
   visible: boolean;
   set?: SetWithDrop | null;
   onCancel: () => void;
   onOk: () => void;
-}> = ({ visible = false, set, onCancel, onOk }) => {
+}
+
+const AddSetModalForm: React.FC<AddSetModalFormProps> = ({
+  visible = false,
+  set,
+  onCancel,
+  onOk
+}) => {
   const { WorkoutStore } = useStores();
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState();
@@ -19,6 +26,7 @@ const AddSetModalForm: React.FC<{
     if (set) {
       setWeight(set.weight);
       setReps(set.reps);
+      if (set.comment) setComment(set.comment);
     }
   }, [set]);
 
@@ -32,13 +40,13 @@ const AddSetModalForm: React.FC<{
   }, [onCancel]);
 
   const handleWeightChange = useCallback((weight: number | undefined) => {
-    if (weight && typeof weight === "number") {
+    if (weight) {
       setWeight(weight);
     }
   }, []);
 
   const handleRepsChange = useCallback((reps: number | undefined) => {
-    if (reps && typeof reps === "number") {
+    if (reps) {
       setReps(reps);
     }
   }, []);

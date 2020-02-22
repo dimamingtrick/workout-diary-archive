@@ -24,8 +24,8 @@ import {
 } from "../../components/common";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon";
 import AuthLink from "../../components/AuthLink";
-import "./registration-page.scss";
 import { ErrorMessageAnimated } from "../../components/animations";
+import "./registration-page.scss";
 
 type InputChangeType = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement

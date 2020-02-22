@@ -1,9 +1,38 @@
 $black: #e8e8e8;
+.exercise-collapse {
+  margin-bottom: 16px !important;
 
-.exercise {
+  .ant-collapse-content-box {
+    padding: 0 16px !important;
+  }
+  .ant-list-item-meta {
+    margin-bottom: 0 !important;
+  }
+}
+
+.ant-collapse-header {
+  padding-right: 7px !important;
+}
+
+.exercise-collapse-header {
+  display: flex;
+  align-items: center;
+
+  .collapse-icon {
+    margin-left: 5px;
+    transition: transform 0.3s;
+    &.is-open {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.exercises {
   flex-direction: column;
   align-items: flex-start !important;
-  border-bottom: 1px solid $black !important;
+  padding: 0;
+  list-style-type: none;
+  // border-bottom: 1px solid $black !important;
 
   &__title {
     color: rgba(0, 0, 0, 0.85);
@@ -27,12 +56,14 @@ $black: #e8e8e8;
 .set {
   &__title {
     color: rgba(0, 0, 0, 0.65);
-    font-size: 14px !important;
+    font-size: 15px !important;
     line-height: 22px !important;
   }
 
   &__description {
     margin-left: 10px;
+    font-size: 13px;
+    color: #808080;
   }
 
   & > .ant-list-item-meta {
@@ -45,9 +76,10 @@ $black: #e8e8e8;
 
 .sets {
   width: 100%;
-  padding-left: 15px !important;
+  padding-left: 0px !important;
 
-  li.ant-list-item {
+  li.set {
+    list-style-type: none;
     border-bottom: 1px dashed $black;
     padding: 10px 0;
     &:last-child {
@@ -60,6 +92,7 @@ $black: #e8e8e8;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex: 1;
 }
 
 .list-item-description {
@@ -68,8 +101,9 @@ $black: #e8e8e8;
 
 .dropsets {
   width: 100%;
-  padding-left: 15px;
+  padding-left: 10px;
   margin-top: 5px;
+  list-style-type: none;
 }
 
 .dropset {

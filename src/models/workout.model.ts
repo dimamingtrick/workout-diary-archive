@@ -10,6 +10,7 @@ export interface SetWithDrop extends Set {
 }
 
 export interface Exercise {
+  id?: string;
   name: string;
   sets: Array<SetWithDrop>
 }

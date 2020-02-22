@@ -1,9 +1,14 @@
 import React, { memo } from "react";
 
-const ListItemDescription: React.FC<{
+interface ListItemDescriptionProps {
   className?: string;
   children: React.ReactNode;
-}> = ({ className = "", children }) => {
+}
+
+const ListItemDescription: React.FC<ListItemDescriptionProps> = ({
+  className = "",
+  children
+}) => {
   return <div className={`list-item-description ${className}`}>{children}</div>;
 };
 

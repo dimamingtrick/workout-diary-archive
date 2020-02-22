@@ -1,41 +1,59 @@
 import React, { memo, useCallback } from "react";
-import { List } from "antd";
 
 import DropSetsList from "./DropSetsList";
 import ListItemTitle from "./ListItemTitle";
 import ListItemDescription from "./ListItemDescription";
 import { SetWithDrop } from "../../models/workout.model";
 
-const Set: React.FC<{
+interface SetProps {
   set: SetWithDrop;
   number: number;
+  showEditIcon?: boolean;
+  showDeleteIcon?: boolean;
   onSetEditClick?: (set: SetWithDrop) => void;
-}> = ({ set, number, onSetEditClick }) => {
+  onSetDeleteClick?: (set: SetWithDrop) => void;
+}
+
+const Set: React.FC<SetProps> = ({
+  set,
+  number,
+  showEditIcon = false,
+  showDeleteIcon = false,
+  onSetEditClick,
+  onSetDeleteClick
+}) => {
   const handleEditClick = useCallback(() => {
     if (onSetEditClick) {
       onSetEditClick(set);
     }
   }, [onSetEditClick, set]);
 
+  const handleDeleteClick = useCallback(() => {
+    if (onSetDeleteClick) {
+      onSetDeleteClick(set);
+    }
+  }, [onSetDeleteClick, set]);
+
   return (
-    <List.Item className="set">
-      <List.Item.Meta
-        title={
-          <ListItemTitle
-            className="set__title"
-            onEditClick={handleEditClick}
-          >{`${number}. ${set.weight}kg - ${set.reps}`}</ListItemTitle>
-        }
-        description={
-          set.comment && (
-            <ListItemDescription className="set__description">
-              {set.comment}
-            </ListItemDescription>
-          )
-        }
-      />
+    <li className="set">
+      <ListItemTitle
+        className="set__title"
+        showEditIcon={showEditIcon}
+        showDeleteIcon={showDeleteIcon}
+        onEditClick={handleEditClick}
+        onDeleteClick={handleDeleteClick}
+      >
+        {`${number}. ${set.weight}kg - ${set.reps}`}
+      </ListItemTitle>
+
+      {set.comment && (
+        <ListItemDescription className="set__description">
+          {set.comment}
+        </ListItemDescription>
+      )}
+
       {set.dropSets && <DropSetsList sets={set.dropSets} />}
-    </List.Item>
+    </li>
   );
 };
 

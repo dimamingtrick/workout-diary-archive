@@ -10,7 +10,7 @@ import { useStores } from "../../../hooks";
 import "./current-exercise.scss";
 import { SetWithDrop } from "../../../models/workout.model";
 
-const CurrentExercisePage = () => {
+const CurrentExercisePage: React.FC = () => {
   const { WorkoutStore } = useStores();
   const [selectedSet, setSelectedSet] = useState<SetWithDrop | null>(null);
   const [visible, setVisible] = useState(false);
@@ -32,10 +32,7 @@ const CurrentExercisePage = () => {
   }, []);
 
   const handleModalClose = useCallback(() => {
-    setVisible(false);
-  }, []);
-
-  const handleAddSet = useCallback(() => {
+    setSelectedSet(null);
     setVisible(false);
   }, []);
 
@@ -54,6 +51,13 @@ const CurrentExercisePage = () => {
     setVisible(true);
   }, []);
 
+  const handleDeleteSet = useCallback(
+    (set: SetWithDrop) => {
+      WorkoutStore.deleteSet(set);
+    },
+    [WorkoutStore]
+  );
+
   return useObserver(() => {
     if (!WorkoutStore.currentExercise || !WorkoutStore.isRunning) {
       return <Redirect to="/app" />;
@@ -61,12 +65,18 @@ const CurrentExercisePage = () => {
 
     return (
       <>
-        <Header>
-          <Button type="link" onClick={handleGoToWorkoutPage}>
-            <Icon type="left" />
-            Workout
-          </Button>
-        </Header>
+        <Header
+          left={
+            <Button
+              className="back-button"
+              type="link"
+              onClick={handleGoToWorkoutPage}
+            >
+              <Icon type="left" />
+              Workout
+            </Button>
+          }
+        />
         <Page>
           <Input
             size="large"
@@ -77,13 +87,16 @@ const CurrentExercisePage = () => {
           <AddSetModalForm
             visible={visible}
             onCancel={handleModalClose}
-            onOk={handleAddSet}
+            onOk={handleModalClose}
             set={selectedSet}
           />
           {WorkoutStore.currentExercise && (
             <SetsList
               sets={WorkoutStore.currentExercise!.sets}
+              showEditIcon
+              showDeleteIcon
               onSetEditClick={handleEditSet}
+              onSetDeleteClick={handleDeleteSet}
             />
           )}
           <Button className="add-set-button" onClick={handleModalOpen}>
@@ -94,7 +107,12 @@ const CurrentExercisePage = () => {
           <Button type="danger" onClick={handleCancelExercise}>
             Cancel exercise
           </Button>
-          <Button type="primary" onClick={handleCompleteExercise}>
+          <Button
+            type="primary"
+            className="complete-exercise-btn"
+            onClick={handleCompleteExercise}
+            disabled={!WorkoutStore.currentExercise.name}
+          >
             Complete exercise
           </Button>
         </div>

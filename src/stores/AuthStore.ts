@@ -1,6 +1,6 @@
 import { observable, action } from "mobx"
 
-import { signup, signin, initialize } from "../api/auth.api";
+import { signUp, signIn, initialize } from "../api/auth.api";
 import { SignUpInterface, SignInInterface } from "../models/auth.model";
 
 interface User {
@@ -44,7 +44,7 @@ export default class AuthStore {
 
   @action async signUp(signUpData: SignUpInterface) {
     try {
-      const { user, token } = await signup(signUpData);
+      const { user, token } = await signUp(signUpData);
       localStorage.setItem("token", token);
       this.isLoggedIn = true;
       this.user = user;
@@ -55,7 +55,7 @@ export default class AuthStore {
 
   @action async signIn(signInData: SignInInterface) {
     try {
-      const { user, token } = await signin(signInData);
+      const { user, token } = await signIn(signInData);
       localStorage.setItem("token", token);
       this.isLoggedIn = true;
       this.user = user;
