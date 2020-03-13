@@ -4,3 +4,5 @@ import api from "./api";
 import { Workout } from "../models/workout.model";
 
 export const finishWorkout = (workout: Workout) => api.post("workout/finish", workout);
+
+export const getWorkoutHistory = () => api.get("workout");
