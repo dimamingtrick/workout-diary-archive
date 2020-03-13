@@ -44,7 +44,15 @@ const WorkoutPage: React.FC = () => {
   }, [WorkoutStore]);
 
   const handleFinishWorkout = useCallback(() => {
-    WorkoutStore.finishWorkout();
+    WorkoutStore.finishWorkout().catch(err => {
+      Modal.error({
+        title: err,
+        okType: "danger",
+        maskClosable: true,
+        transitionName: "fade",
+        centered: true
+      });
+    });
   }, [WorkoutStore]);
 
   const handleAddExercise = useCallback(() => {
@@ -118,7 +126,11 @@ const WorkoutPage: React.FC = () => {
               isOpen={getOpenExercises}
               onExerciseCollapse={handleExerciseCollapse}
             />
-            <Button className="add-exercise-btn" onClick={handleAddExercise}>
+            <Button
+              className="add-exercise-btn"
+              onClick={handleAddExercise}
+              disabled={WorkoutStore.isFinishing}
+            >
               {WorkoutStore.currentExercise?.name
                 ? `Continue current exercise (${WorkoutStore.currentExercise.name})`
                 : "Add exercise"}
@@ -128,18 +140,19 @@ const WorkoutPage: React.FC = () => {
       </Page>
       {WorkoutStore.isRunning && (
         <div className="exercise-actions">
-          <Button type="danger" onClick={handleCancelWorkout}>
+          <Button
+            type="danger"
+            onClick={handleCancelWorkout}
+            disabled={WorkoutStore.isFinishing}
+          >
             Cancel Workout
           </Button>
           <Button
             type="primary"
             className="finish-workout-button"
             onClick={handleFinishWorkout}
-            disabled={
-              !WorkoutStore.isRunning ||
-              WorkoutStore.exercises.length === 0 ||
-              !!WorkoutStore.currentExercise
-            }
+            disabled={WorkoutStore.isFinishButtonDisabled}
+            loading={WorkoutStore.isFinishing}
           >
             Finish Workout
           </Button>

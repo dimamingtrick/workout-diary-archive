@@ -1,6 +1,8 @@
-import { observable, action, toJS } from "mobx";
+import { observable, action, toJS, computed } from "mobx";
 import uuid from "uuid";
 import moment from "moment";
+
+import { finishWorkout } from "../api/workout.api";
 import { Workout, Exercise, SetWithDrop } from "../models/workout.model";
 
 const exercises = [
@@ -121,6 +123,14 @@ export default class WorkoutStore {
   @observable currentExercise: Exercise | null = null;
   @observable exercises: Array<Exercise> = exercises;
   @observable openExercises: Array<number> = [];
+  @observable isFinishing: boolean = false;
+
+  @computed get isFinishButtonDisabled() {
+    return !this.isRunning ||
+      this.exercises.length === 0 ||
+      !!this.currentExercise ||
+      this.isFinishing;
+  }
 
   @action startWorkout() {
     this.isRunning = true;
@@ -219,9 +229,11 @@ export default class WorkoutStore {
   }
 
   @action deleteExercise(deletedExercise: Exercise) {
+    const number = this.exercises.indexOf(deletedExercise);
     this.exercises = this.exercises.filter(
       exercise => exercise.id !== deletedExercise.id
     );
+    this.openExercises = this.openExercises.filter(i => i !== number);
   }
 
   @action toggleOpenExercise({
@@ -238,7 +250,7 @@ export default class WorkoutStore {
     }
   }
 
-  @action finishWorkout() {
+  @action async finishWorkout() {
     if (
       !this.isRunning ||
       !this.exercises ||
@@ -248,13 +260,25 @@ export default class WorkoutStore {
       return;
     }
 
-    this.stopWorkout();
+    this.isFinishing = true;
+
     const workout: Workout = {
       date: this.date,
       timer: this.timer,
       exercises: toJS(this.exercises)
     };
     console.log(workout);
+
+    try {
+      const res = await finishWorkout(workout);
+      this.stopWorkout();
+      console.log(res);
+    } catch (err) {
+      console.log("finish workout err: ", err);
+      throw err.message;
+    } finally {
+      this.isFinishing = false;
+    }
   }
 
   @action cancelWorkout() {

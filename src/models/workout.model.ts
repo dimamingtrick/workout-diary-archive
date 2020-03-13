@@ -17,6 +17,6 @@ export interface Exercise {
 
 export interface Workout {
   date: Date;
-  timer: string | Date | number; // Not sure about this type yet
+  timer: string; // Not sure about this type yet
   exercises: Array<Exercise>;
 }
